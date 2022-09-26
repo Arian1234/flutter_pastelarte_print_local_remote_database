@@ -6,15 +6,27 @@ import '../models/modelProductos.dart';
 class ProviderProductos extends ChangeNotifier {
   List<Productos> prod = [];
 
-  AgregarProducto(String nomb, String desc, String img, double cant,
-      double prec, double vent, int est) async {
+  AgregarProducto(
+      String nomb,
+      String desc,
+      String categ,
+      String img,
+      double cant,
+      double mini,
+      double prec,
+      double vent,
+      int desp,
+      int est) async {
     final model = Productos(
         nombprod: nomb,
         descripprod: desc,
+        categprod: categ,
         imgprod: img,
         cantprod: cant,
+        minstock: mini,
         precioprod: prec,
         ventaprod: vent,
+        despachorecep: desp,
         estadoprod: est);
     final id = await DbCrudProductos.dbp.NuevoProducto(model);
     model.idprod = id;

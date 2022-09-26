@@ -12,11 +12,11 @@ class DBProvider {
 
   Future<Database> initdatabase() async {
     var dbpath = await getDatabasesPath();
-    String paths = join(dbpath, 'dbpastel.db');
+    String paths = join(dbpath, 'dbpastell.db');
 
     return await openDatabase(
       paths,
-      version: 1,
+      version: 2,
       onOpen: (db) {},
       onCreate: (db, version) async {
         await db.execute(categorias);
@@ -26,9 +26,9 @@ class DBProvider {
         await db.execute(detaorden);
       },
     );
-
   }
-    String categorias = '''
+
+  String categorias = '''
 CREATE TABLE CATEGORIAS(
   idcateg INTEGER PRIMARY KEY,
   nombCateg TEXT UNIQUE
@@ -55,7 +55,7 @@ CREATE TABLE PRODUCTOS(
   precioprod DECIMAL(7,2),
   ventaprod DECIMAL(7,2),
   despachorecep BOOLEAN NOT NULL CHECK (despachorecep IN(0,1)),
-  estprod BOOLEAN NOT NULL CHECK (estprod IN(0,1)));
+  estadoprod BOOLEAN NOT NULL CHECK (estadoprod IN(0,1)));
 ''';
 
   String orden = '''

@@ -1,3 +1,4 @@
+import 'package:firebase_orders_flutter/controllers/controllerProductos.dart';
 import 'package:firebase_orders_flutter/pages/printerenum.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
@@ -8,7 +9,8 @@ import 'dart:io';
 class TestPrint {
   BlueThermalPrinter bluetooth = BlueThermalPrinter.instance;
 
-  sample(List listado, List listt, int itemscount, double total) async {
+  sample(List listado, ProviderProductos prov, int itemscount,
+      String total) async {
     //image max 300px X 300px
 
     ///image from File path
@@ -85,11 +87,11 @@ class TestPrint {
         for (var i = 0; i < itemscount; i++) {
           if (listado[i] > 0) {
             var sd = double.parse(listado[i].toString()) *
-                double.parse(listt[i]["venta"].toString());
+                prov.prod[i].ventaprod!.toDouble();
             bluetooth.print4Column(
                 listado[i].toString(),
-                listt[i]["nombre"].toString(),
-                listt[i]["venta"].toString(),
+                prov.prod[i].nombprod.toString(),
+                prov.prod[i].ventaprod.toString(),
                 sd.toString(),
                 Size.medium.val,
                 format: "%-2s %14s %6s %7s %n");

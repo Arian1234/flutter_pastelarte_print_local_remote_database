@@ -25,11 +25,7 @@ class _ordenespageState extends State<ordenespage> {
   @override
   void initState() {
     super.initState();
-
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -97,8 +93,9 @@ class _ordenespageState extends State<ordenespage> {
                                     children: [
                                       IconButton(
                                           onPressed: () {
-                                            TestPrint().sample(listado, list,
-                                                listado.length, total);
+                                            // TODO SOLO SE COMENTO X UNA MODIFICACION EN EL ARCHIVO DE REFERENCIA TESTPRINT
+                                            // TestPrint().sample(listado, list,
+                                            //     listado.length, total);
                                           },
                                           iconSize: 53,
                                           icon: const Icon(

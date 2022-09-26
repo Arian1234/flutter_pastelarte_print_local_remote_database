@@ -1,4 +1,14 @@
+import 'dart:developer';
+
+import 'package:blue_thermal_printer/blue_thermal_printer.dart';
+import 'package:firebase_orders_flutter/pages/impresora_SQFLITE.dart';
+import 'package:firebase_orders_flutter/pages/ordenpagesqflite.dart';
+import 'package:firebase_orders_flutter/pages/productospagesqflite.dart';
+import 'package:firebase_orders_flutter/pages/testprint.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import '../controllers/controllerProductos.dart';
 
 class homePage extends StatefulWidget {
   const homePage({Key? key}) : super(key: key);
@@ -8,6 +18,11 @@ class homePage extends StatefulWidget {
 }
 
 class _homePageState extends State<homePage> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     double _ancho = MediaQuery.of(context).size.width;
@@ -21,10 +36,20 @@ class _homePageState extends State<homePage> {
         elevation: 1,
         actions: [
           IconButton(
-              onPressed: () {
-                Navigator.pushNamed(context, 'prodsqflite');
+              onPressed: () async {
+                return showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return impresoraSQFlite(
+                        alto: _alto * .2,
+                        ancho: _ancho * .8,
+                      );
+                    });
               },
-              icon: Icon(Icons.add_a_photo)),
+              icon: const Icon(
+                Icons.bluetooth,
+              )),
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(
@@ -72,14 +97,23 @@ class _homePageState extends State<homePage> {
               leading: const Icon(Icons.add_shopping_cart_sharp),
               trailing: const Icon(Icons.arrow_forward_ios),
               iconColor: Colors.pink[400],
-              onTap: () => Navigator.pushNamed(context, 'productos'),
+              onTap: () {
+                final prov =
+                    Provider.of<ProviderProductos>(context, listen: false);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          productospagesqflite(provforaneo: prov),
+                    ));
+              },
             ),
             ListTile(
               title: const Text('Categorias'),
               leading: const Icon(Icons.add_task),
               trailing: const Icon(Icons.arrow_forward_ios),
               iconColor: Colors.pink[400],
-              onTap: () => Navigator.pop(context),
+              onTap: () {},
             ),
             ListTile(
               title: const Text('Clientes'),
@@ -250,7 +284,18 @@ class seleccion extends StatelessWidget {
               style: const TextStyle(fontWeight: FontWeight.w300),
             ),
             trailing: const Icon(Icons.chevron_right_rounded),
-            onTap: () => Navigator.pushNamed(context, ruta),
+            onTap: () {
+              if (ruta == "ordenes") {
+                final prov =
+                    Provider.of<ProviderProductos>(context, listen: false);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          ordenespagesqflite(provforaneo: prov),
+                    ));
+              }
+            },
           )
         ],
       ),

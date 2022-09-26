@@ -1,9 +1,12 @@
 import 'package:firebase_orders_flutter/controllers/controllerProductos.dart';
 import 'package:firebase_orders_flutter/pages/homepage.dart';
 import 'package:firebase_orders_flutter/pages/imagenpage.dart';
+import 'package:firebase_orders_flutter/pages/impresora_SQFLITE.dart';
 import 'package:firebase_orders_flutter/pages/impresora.dart';
 import 'package:firebase_orders_flutter/pages/loaderimage.dart';
+import 'package:firebase_orders_flutter/pages/loaderimagesqflite.dart';
 import 'package:firebase_orders_flutter/pages/ordenpage.dart';
+import 'package:firebase_orders_flutter/pages/ordenpagesqflite.dart';
 import 'package:firebase_orders_flutter/pages/productospage.dart';
 import 'package:firebase_orders_flutter/pages/productospageinsert.dart';
 import 'package:firebase_orders_flutter/pages/productospagesqflite.dart';
@@ -56,9 +59,9 @@ class _MyAppState extends State<MyApp> {
           'productos': (context) => const productospage(),
           'images': (context) => const MyHomePage(),
           'imagenes_carga': (context) => cargadorimages(),
-          'ordenes': (context) => const ordenespage(),
-          'impresora': (context) => MyAppimpresora(),
-          'prodsqflite': (context) => productospagesqflite(),
+          // 'ordenes': (context) => ordenespagesqflite(provforaneo: prov),
+          // 'impresora': (context) => impresoraSQFlite(),
+          'cargadorimagessqflite': (context) => cargadorimagessqflite(),
         },
         theme: ThemeData(
             colorScheme: ColorScheme.fromSwatch().copyWith(
