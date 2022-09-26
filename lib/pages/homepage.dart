@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
-import 'package:firebase_orders_flutter/pages/impresora_SQFLITE.dart';
-import 'package:firebase_orders_flutter/pages/ordenpagesqflite.dart';
-import 'package:firebase_orders_flutter/pages/productospagesqflite.dart';
+import 'package:firebase_orders_flutter/pages/impresoraAlertDialog.dart';
+import 'package:firebase_orders_flutter/pages/OrdenPage.dart';
+import 'package:firebase_orders_flutter/pages/productosPage_query.dart';
 import 'package:firebase_orders_flutter/pages/testprint.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -41,7 +41,7 @@ class _homePageState extends State<homePage> {
                     barrierDismissible: false,
                     context: context,
                     builder: (context) {
-                      return impresoraSQFlite(
+                      return impresoraAlertDialog(
                         alto: _alto * .2,
                         ancho: _ancho * .8,
                       );
@@ -104,7 +104,7 @@ class _homePageState extends State<homePage> {
                     context,
                     MaterialPageRoute(
                       builder: (context) =>
-                          productospagesqflite(provforaneo: prov),
+                          productosPage_query(provforaneo: prov),
                     ));
               },
             ),
@@ -188,36 +188,21 @@ class _homePageState extends State<homePage> {
               imagewidth: 44,
               ruta: 'ordenes',
             ),
-            SizedBox(
-              height: 20,
-            ),
-            seleccion(
-              ancho: _ancho * .9,
-              alto: _alto * .1,
-              primaryColor: Colors.pink.shade100,
-              secondaryColor: Colors.pink,
-              shadowColor: Colors.pink.shade900,
-              image: 'assets/logo_.png',
-              title: 'Proformas',
-              subtit: 'Generar una cotización.',
-              imagewidth: 44,
-              ruta: 'impresora',
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            seleccion(
-              ancho: _ancho * .9,
-              alto: _alto * .1,
-              primaryColor: Colors.amber.shade100,
-              secondaryColor: Colors.amber,
-              shadowColor: Colors.amber.shade900,
-              image: 'assets/logo_.png',
-              title: 'Clientes',
-              subtit: 'Agrega nuevos clientes.',
-              imagewidth: 44,
-              ruta: 'ruta',
-            ),
+            // SizedBox(
+            //   height: 20,
+            // ),
+            // seleccion(
+            //   ancho: _ancho * .9,
+            //   alto: _alto * .1,
+            //   primaryColor: Colors.pink.shade100,
+            //   secondaryColor: Colors.pink,
+            //   shadowColor: Colors.pink.shade900,
+            //   image: 'assets/logo_.png',
+            //   title: 'Proformas',
+            //   subtit: 'Generar una cotización.',
+            //   imagewidth: 44,
+            //   ruta: 'impresora',
+            // ),
           ],
         ),
       ),
@@ -291,8 +276,7 @@ class seleccion extends StatelessWidget {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          ordenespagesqflite(provforaneo: prov),
+                      builder: (context) => ordenPage(provforaneo: prov),
                     ));
               }
             },

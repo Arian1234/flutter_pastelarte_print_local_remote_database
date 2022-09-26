@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
@@ -12,16 +11,16 @@ import 'package:video_player/video_player.dart';
 import '../controllers/controllerProductos.dart';
 import '../widgets/textformfieldcustom.dart';
 
-class cargadorimagessqflite extends StatefulWidget {
-  const cargadorimagessqflite({Key? key, this.title}) : super(key: key);
+class productosPage_insert extends StatefulWidget {
+  const productosPage_insert({Key? key, this.title}) : super(key: key);
 
   final String? title;
 
   @override
-  State<cargadorimagessqflite> createState() => _cargadorimagessqfliteState();
+  State<productosPage_insert> createState() => _productosPage_insertState();
 }
 
-class _cargadorimagessqfliteState extends State<cargadorimagessqflite> {
+class _productosPage_insertState extends State<productosPage_insert> {
   List<XFile>? _imageFileList;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController contr = TextEditingController();
@@ -243,15 +242,17 @@ class _cargadorimagessqfliteState extends State<cargadorimagessqflite> {
                                   context: context,
                                   builder: (BuildContext context) {
                                     return AlertDialog(
-                                      title: Text('Seleccionar la fuente'),
+                                      title:
+                                          const Text('Seleccionar la fuente'),
                                       content: Container(
                                         width: _ancho * .5,
                                         height: _alto * .15,
                                         child: Column(
                                           children: [
                                             ListTile(
-                                              title: Text('Cámara'),
-                                              trailing: Icon(Icons.camera),
+                                              title: const Text('Cámara'),
+                                              trailing:
+                                                  const Icon(Icons.camera),
                                               onTap: () {
                                                 isVideo = false;
                                                 onImageButtonPressed(
@@ -261,8 +262,8 @@ class _cargadorimagessqfliteState extends State<cargadorimagessqflite> {
                                               },
                                             ),
                                             ListTile(
-                                              title: Text('Galeria'),
-                                              trailing: Icon(
+                                              title: const Text('Galeria'),
+                                              trailing: const Icon(
                                                   Icons.image_search_rounded),
                                               onTap: () {
                                                 isVideo = false;
@@ -280,21 +281,19 @@ class _cargadorimagessqfliteState extends State<cargadorimagessqflite> {
                             },
                             child: _imageFileList != null
                                 ? ClipRRect(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(25)),
-                                    child: Container(
-                                      child: Image(
-                                        isAntiAlias: true,
-                                        fit: BoxFit.fill,
-                                        image: FileImage(
-                                            File(_imageFileList![0].path)),
-                                        width: 50,
-                                        // fit: BoxFit.cover,
-                                        // height: 400,
-                                      ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(25)),
+                                    child: Image(
+                                      isAntiAlias: true,
+                                      fit: BoxFit.fill,
+                                      image: FileImage(
+                                          File(_imageFileList![0].path)),
+                                      width: 50,
+                                      // fit: BoxFit.cover,
+                                      // height: 400,
                                     ),
                                   )
-                                : ClipRRect(
+                                : const ClipRRect(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(25)),
                                     clipBehavior: Clip.antiAlias,
@@ -333,7 +332,7 @@ class _cargadorimagessqfliteState extends State<cargadorimagessqflite> {
                         habilitado: true,
                         label: 'Descripción',
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Container(
@@ -349,12 +348,12 @@ class _cargadorimagessqfliteState extends State<cargadorimagessqflite> {
                             children: [
                               Container(
                                   width: _ancho * .25,
-                                  margin: EdgeInsets.only(left: 9),
+                                  margin: const EdgeInsets.only(left: 9),
                                   child: const Text('Categoría:')),
-                              DropdownButton(items: [], onChanged: null),
+                              DropdownButton(items: const [], onChanged: null),
                             ],
                           )),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                       Row(
@@ -422,7 +421,7 @@ class _cargadorimagessqfliteState extends State<cargadorimagessqflite> {
                             children: [
                               Container(
                                   width: _ancho * .25,
-                                  margin: EdgeInsets.only(left: 9),
+                                  margin: const EdgeInsets.only(left: 9),
                                   child: const Text('Despacho inst.:')),
                               Switch(
                                   value: _switchDespacho,
@@ -433,7 +432,7 @@ class _cargadorimagessqfliteState extends State<cargadorimagessqflite> {
                                   })
                             ],
                           )),
-                      SizedBox(
+                      const SizedBox(
                         height: 10,
                       ),
                     ],

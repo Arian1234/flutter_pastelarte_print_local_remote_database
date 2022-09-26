@@ -1,25 +1,33 @@
 import 'dart:developer';
-
 import 'package:firebase_orders_flutter/pages/testprint.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/services.dart';
 
-void main() => runApp(new MyAppimpresora());
+class impresoraAlertDialog extends StatefulWidget {
+  const impresoraAlertDialog({
+    Key? key,
+    required double ancho,
+    required double alto,
+  })  : _ancho = ancho,
+        _alto = alto,
+        super(key: key);
+  final double _ancho;
+  final double _alto;
 
-class MyAppimpresora extends StatefulWidget {
   @override
-  _MyAppimpresoraState createState() => new _MyAppimpresoraState();
+  _impresoraAlertDialogState createState() => _impresoraAlertDialogState();
 }
 
-class _MyAppimpresoraState extends State<MyAppimpresora> {
+class _impresoraAlertDialogState extends State<impresoraAlertDialog> {
   BlueThermalPrinter bluetooth = BlueThermalPrinter.instance;
 
   List<BluetoothDevice> _devices = [];
   BluetoothDevice? _device;
   bool _connected = false;
   TestPrint testPrint = TestPrint();
+  String message = '';
 
   @override
   void initState() {
@@ -40,54 +48,65 @@ class _MyAppimpresoraState extends State<MyAppimpresora> {
           setState(() {
             _connected = true;
             log("bluetooth device state: connected");
+            message = 'Dispositivo bluetooth conectado.';
           });
           break;
         case BlueThermalPrinter.DISCONNECTED:
           setState(() {
             _connected = false;
             log("bluetooth device state: disconnected");
+            message = 'Dispositivo bluetooth desconectado.';
           });
           break;
         case BlueThermalPrinter.DISCONNECT_REQUESTED:
           setState(() {
             _connected = false;
             log("bluetooth device state: disconnect requested");
+            message = 'Dispositivo bluetooth desc. sin respuesta.';
           });
           break;
         case BlueThermalPrinter.STATE_TURNING_OFF:
           setState(() {
             _connected = false;
             log("bluetooth device state: bluetooth turning off");
+            message = 'Dispositivo bluetooth rec. apagado.';
           });
           break;
         case BlueThermalPrinter.STATE_OFF:
           setState(() {
             _connected = false;
             log("bluetooth device state: bluetooth off");
+            message = 'Dispositivo bluetooth apagado.';
           });
           break;
         case BlueThermalPrinter.STATE_ON:
           setState(() {
             _connected = false;
             log("bluetooth device state: bluetooth on");
+            message = 'Dispositivo bluetooth encendido.';
           });
           break;
         case BlueThermalPrinter.STATE_TURNING_ON:
           setState(() {
             _connected = false;
             log("bluetooth device state: bluetooth turning on");
+            message = 'Dispositivo bluetooth rec. encendido.';
           });
           break;
         case BlueThermalPrinter.ERROR:
           setState(() {
             _connected = false;
             log("bluetooth device state: error");
+            message = 'Dispositivo bluetooth error.';
           });
           break;
         default:
           log(state.toString());
           break;
       }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message.toString())),
+      );
     });
 
     if (!mounted) return;
@@ -104,12 +123,41 @@ class _MyAppimpresoraState extends State<MyAppimpresora> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Blue Thermal Printer x'),
-        ),
-        body: Container(
+    return Container(
+      color: Colors.pink.withOpacity(.3),
+      width: widget._ancho,
+      height: widget._alto,
+      child: AlertDialog(
+        title: const Center(
+            child: Text(
+          "Conectar a impresora bluetooth",
+          style: TextStyle(
+              fontWeight: FontWeight.bold, color: Colors.pink, fontSize: 22),
+        )),
+        actions: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(
+                    Icons.arrow_back_ios_new_rounded,
+                    size: 30,
+                  )),
+              IconButton(
+                  onPressed: () {
+                    TestPrint().test();
+                    Navigator.pop(context);
+                  },
+                  icon: const Icon(Icons.cast_connected_rounded, size: 30))
+            ],
+          )
+        ],
+        content: SizedBox(
+          width: widget._ancho * .9,
+          height: widget._alto * .9,
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: ListView(
@@ -118,16 +166,16 @@ class _MyAppimpresoraState extends State<MyAppimpresora> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(
+                    const SizedBox(
                       width: 10,
                     ),
-                    Text(
+                    const Text(
                       'Device:',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 30,
                     ),
                     Expanded(
@@ -140,7 +188,7 @@ class _MyAppimpresoraState extends State<MyAppimpresora> {
                     ),
                   ],
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 Row(
@@ -148,16 +196,16 @@ class _MyAppimpresoraState extends State<MyAppimpresora> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     ElevatedButton(
-                      style: ElevatedButton.styleFrom(primary: Colors.brown),
+                      style: ElevatedButton.styleFrom(primary: Colors.pink),
                       onPressed: () {
                         initPlatformState();
                       },
-                      child: Text(
+                      child: const Text(
                         'Refresh',
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 20,
                     ),
                     ElevatedButton(
@@ -166,23 +214,10 @@ class _MyAppimpresoraState extends State<MyAppimpresora> {
                       onPressed: _connected ? _disconnect : _connect,
                       child: Text(
                         _connected ? 'Disconnect' : 'Connect',
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       ),
                     ),
                   ],
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.only(left: 10.0, right: 10.0, top: 50),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(primary: Colors.brown),
-                    onPressed: () {
-                      // final orden = Neworden(cantidad: 11,nombre: "nose",precio: 11);
-                      // testPrint.sample(orden);
-                    },
-                    child: Text('PRINT TEST',
-                        style: TextStyle(color: Colors.white)),
-                  ),
                 ),
               ],
             ),
@@ -195,8 +230,8 @@ class _MyAppimpresoraState extends State<MyAppimpresora> {
   List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
     List<DropdownMenuItem<BluetoothDevice>> items = [];
     if (_devices.isEmpty) {
-      items.add(DropdownMenuItem(
-        child: Text('NONE'),
+      items.add(const DropdownMenuItem(
+        child: Text('Vacio'),
       ));
     } else {
       _devices.forEach((device) {
@@ -211,9 +246,7 @@ class _MyAppimpresoraState extends State<MyAppimpresora> {
 
   void _connect() {
     if (_device != null) {
-      log("entre al conect");
       bluetooth.isConnected.then((isConnected) {
-        log("entre al conect x2 " + isConnected.toString());
         if (!isConnected!) {
           log("entre al conect x3");
           bluetooth.connect(_device!).catchError((error) {
@@ -239,12 +272,12 @@ class _MyAppimpresoraState extends State<MyAppimpresora> {
     String message, {
     Duration duration: const Duration(seconds: 3),
   }) async {
-    await new Future.delayed(new Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 100));
     ScaffoldMessenger.of(context).showSnackBar(
-      new SnackBar(
-        content: new Text(
+      SnackBar(
+        content: Text(
           message,
-          style: new TextStyle(
+          style: const TextStyle(
             color: Colors.white,
           ),
         ),

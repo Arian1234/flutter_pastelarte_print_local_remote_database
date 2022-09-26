@@ -1,23 +1,18 @@
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_orders_flutter/widgets/textformfieldcustom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../controllers/controllerProductos.dart';
 
-class productospagesqflite extends StatefulWidget {
+class productosPage_query extends StatefulWidget {
   final ProviderProductos provforaneo;
-  const productospagesqflite({Key? key, required this.provforaneo})
+  const productosPage_query({Key? key, required this.provforaneo})
       : super(key: key);
 
   @override
-  State<productospagesqflite> createState() => _productospagesqfliteState();
+  State<productosPage_query> createState() => _productosPage_queryState();
 }
 
-class _productospagesqfliteState extends State<productospagesqflite> {
-  final fbf = FirebaseDatabase.instance.ref().child('products');
-  List list = [];
-
+class _productosPage_queryState extends State<productosPage_query> {
   @override
   void initState() {
     super.initState();
@@ -29,14 +24,12 @@ class _productospagesqfliteState extends State<productospagesqflite> {
     double _ancho = MediaQuery.of(context).size.width;
     double _alto = MediaQuery.of(context).size.height;
     final prov = Provider.of<ProviderProductos>(context, listen: true);
-
-    final _controllercategoria = TextEditingController();
     final _controllerbuscador = TextEditingController();
 
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
-        title: Text("Productos registrados"),
+        title: const Text("Productos registrados"),
         centerTitle: true,
         backgroundColor: Colors.pink[400],
         actions: [
@@ -44,7 +37,7 @@ class _productospagesqfliteState extends State<productospagesqflite> {
             padding: const EdgeInsets.only(right: 15),
             child: IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, 'cargadorimagessqflite');
+                  Navigator.pushNamed(context, 'productos_insert');
                 },
                 icon: const Icon(
                   Icons.add,
@@ -75,9 +68,8 @@ class _productospagesqfliteState extends State<productospagesqflite> {
                     IconButton(
                         onPressed: () {
                           if (_controllerbuscador.text.toString().isNotEmpty) {
-                            prov.ObtenerProducto('%' +
-                                _controllerbuscador.text.toString() +
-                                '%');
+                            prov.ObtenerProducto(
+                                '%${_controllerbuscador.text}%');
                           }
                         },
                         icon: Icon(
@@ -102,7 +94,7 @@ class _productospagesqfliteState extends State<productospagesqflite> {
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   width: _ancho * .95,
                   height: _alto * .80,
                   child: Center(
@@ -114,7 +106,8 @@ class _productospagesqfliteState extends State<productospagesqflite> {
                           child: ListTile(
                             title: Text(
                               prov.prod[index].nombprod.toString(),
-                              style: TextStyle(fontWeight: FontWeight.w400),
+                              style:
+                                  const TextStyle(fontWeight: FontWeight.w400),
                             ),
                             subtitle: Text(
                               prov.prod[index].cantprod.toString(),
@@ -124,9 +117,8 @@ class _productospagesqfliteState extends State<productospagesqflite> {
                                 child:
                                     Text(prov.prod[index].idprod.toString())),
                             trailing: Text(
-                              prov.prod[index].ventaprod.toString() +
-                                  " sol(es).",
-                              style: TextStyle(color: Colors.black45),
+                              "${prov.prod[index].ventaprod} sol(es).",
+                              style: const TextStyle(color: Colors.black45),
                             ),
                           ),
                         );
