@@ -12,11 +12,11 @@ class DBProvider {
 
   Future<Database> initdatabase() async {
     var dbpath = await getDatabasesPath();
-    String paths = join(dbpath, 'dbpastell.db');
+    String paths = join(dbpath, 'dbpastelsa.db');
 
     return await openDatabase(
       paths,
-      version: 2,
+      version: 7,
       onOpen: (db) {},
       onCreate: (db, version) async {
         await db.execute(categorias);
@@ -61,6 +61,7 @@ CREATE TABLE PRODUCTOS(
   String orden = '''
 CREATE TABLE ORDEN(
   idord INTEGER PRIMARY KEY,
+  unix TEXT,
   nombclie TEXT,
   fechahoraord TEXT,
   fechahoradesp TEXT,
@@ -76,7 +77,7 @@ CREATE TABLE ORDEN(
 CREATE TABLE DETAORDEN(
   iddetaord INTEGER PRIMARY KEY,
   idord INTEGER,
-  idprod INTEGER,
+  nombprod TEXT,
   preciocprod DECIMAL(7,2),
   preciovprod DECIMAL(7,2),
   cantprod DECIMAL(7,2)

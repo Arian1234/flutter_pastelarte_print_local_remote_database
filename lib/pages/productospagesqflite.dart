@@ -21,7 +21,7 @@ class _productospagesqfliteState extends State<productospagesqflite> {
   @override
   void initState() {
     super.initState();
-    widget.provforaneo.ObtenerProducto('% %');
+    widget.provforaneo.ObtenerProducto('%%');
   }
 
   @override

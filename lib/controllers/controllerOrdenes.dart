@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import '../CRUD/crudOrden.dart';
 import '../models/modelOrdenes.dart';
 
-
 class ProviderOrdenes extends ChangeNotifier {
   List<Orden> prod = [];
 
-  AgregarOrden(
-      int idcli,
+  Future<int> AgregarOrden(
+      String uni,
+      String nombcli,
       String fechaord,
       String fechadesp,
       String delivery,
@@ -18,22 +18,26 @@ class ProviderOrdenes extends ChangeNotifier {
       double amortizo,
       double margen,
       String anota,
-      int idor) async {
+      int esta) async {
     final model = Orden(
-      idclie: idcli,
-      fechahoraord: fechaord,
-      fechahoradesp: fechadesp,
-      deliveryord: delivery,
-      totalord: total,
-      amortizoord: amortizo,
-      margenord: margen,
-      anotacord: anota,
-    );
+        unix: uni,
+        nombclie: nombcli,
+        fechahoraord: fechaord,
+        fechahoradesp: fechadesp,
+        deliveryord: delivery,
+        totalord: total,
+        amortizoord: amortizo,
+        margenord: margen,
+        anotacord: anota,
+        estord: esta);
+
     final id = await DbCrudOrdenes.dbp.NuevaOrden(model);
     model.idord = id;
     prod.add(model);
     //  print("AQUI : " + prod[0].toString());
     notifyListeners();
+    log("$id id es aqui");
+    return id;
   }
 
   ActualizarOrden(Orden orden) async {
@@ -46,7 +50,7 @@ class ProviderOrdenes extends ChangeNotifier {
     final model = await DbCrudOrdenes.dbp.GetOrden(busqueda.toString());
     prod = [...model];
     for (var i = 0; i < prod.length; i++) {
-      log(prod[i].idclie.toString() + " - " + prod[i].anotacord.toString());
+      log("${prod[i].nombclie} - ${prod[i].idord} - ${prod[i].unix}");
     }
     notifyListeners();
   }

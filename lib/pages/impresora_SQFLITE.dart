@@ -149,6 +149,7 @@ class _impresoraSQFliteState extends State<impresoraSQFlite> {
                   )),
               IconButton(
                   onPressed: () {
+                    TestPrint().test();
                     Navigator.pop(context);
                   },
                   icon: const Icon(Icons.cast_connected_rounded, size: 30))

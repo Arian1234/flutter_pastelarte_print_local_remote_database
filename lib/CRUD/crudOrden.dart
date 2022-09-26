@@ -13,7 +13,7 @@ class DbCrudOrdenes {
   Future<int> ActualizarOrden(Orden orden) async {
     final db = await DBProvider.db.getdatabase();
     final res = await db.rawUpdate('''UPDATE ORDEN SET 
-        idclie=?, 
+        nombclie=?, 
         fechahoraord=?,
         fechahoradesp=?,
         deliveryord=?,
@@ -22,7 +22,7 @@ class DbCrudOrdenes {
         margenord=?,
         anotacord=? where idord=?
          ''', [
-      orden.idclie,
+      orden.nombclie,
       orden.fechahoraord,
       orden.fechahoradesp,
       orden.deliveryord,
@@ -38,7 +38,7 @@ class DbCrudOrdenes {
   Future<List<Orden>> GetOrden(String busqueda) async {
     final db = await DBProvider.db.getdatabase();
     final res = await db.query('ORDEN',
-        where: 'idclie like ?', whereArgs: [busqueda.toString()]);
+        where: 'nombclie like ?', whereArgs: [busqueda.toString()]);
     return res.isNotEmpty ? res.map((e) => Orden.fromJson(e)).toList() : [];
   }
 

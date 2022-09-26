@@ -11,7 +11,8 @@ String ordenToJson(Orden data) => json.encode(data.toJson());
 class Orden {
   Orden({
     this.idord,
-    this.idclie,
+    this.unix,
+    this.nombclie,
     this.fechahoraord,
     this.fechahoradesp,
     this.deliveryord,
@@ -23,7 +24,8 @@ class Orden {
   });
 
   int? idord;
-  int? idclie;
+  String? unix;
+  String? nombclie;
   String? fechahoraord;
   String? fechahoradesp;
   String? deliveryord;
@@ -31,11 +33,12 @@ class Orden {
   double? amortizoord;
   double? margenord;
   String? anotacord;
-  String? estord;
+  int? estord;
 
   factory Orden.fromJson(Map<String, dynamic> json) => Orden(
         idord: json["idord"],
-        idclie: json["idclie"],
+        unix: json["unix"],
+        nombclie: json["nombclie"],
         fechahoraord: json["fechahoraord"],
         fechahoradesp: json["fechahoradesp"],
         deliveryord: json["deliveryord"],
@@ -48,7 +51,8 @@ class Orden {
 
   Map<String, dynamic> toJson() => {
         "idord": idord,
-        "idclie": idclie,
+        "unix": unix,
+        "nombclie": nombclie,
         "fechahoraord": fechahoraord,
         "fechahoradesp": fechahoradesp,
         "deliveryord": deliveryord,

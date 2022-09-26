@@ -9,8 +9,8 @@ import 'dart:io';
 class TestPrint {
   BlueThermalPrinter bluetooth = BlueThermalPrinter.instance;
 
-  sample(List listado, ProviderProductos prov, int itemscount,
-      String total) async {
+  sample(List listado, ProviderProductos prov, int itemscount, String total,
+      String unix) async {
     //image max 300px X 300px
 
     ///image from File path
@@ -40,11 +40,12 @@ class TestPrint {
         // bluetooth.printNewLine();
         bluetooth.printCustom(
             "NOTA DE VENTA", Size.medium.val, Align.center.val);
+
         // bluetooth.printNewLine();
         bluetooth.printCustom(
-            "CONTACTO: 930 6213 87", Size.medium.val, Align.center.val);
+            "CONTACTO: xxx xxx xxx                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   ", Size.medium.val, Align.center.val);
         bluetooth.printNewLine();
-
+        bluetooth.printCustom("NRO NV: $unix", Size.medium.val, Align.left.val);
         bluetooth.printCustom(
             "CLIENTE: VARIOS", Size.medium.val, Align.left.val);
         // bluetooth.printImage(file.path); //path of your image/logo
@@ -110,6 +111,97 @@ class TestPrint {
             370,
             200,
             Align.right.val);
+        bluetooth.printNewLine();
+        bluetooth.printNewLine();
+
+        bluetooth.printCustom("Gracias", Size.boldMedium.val, Align.center.val);
+        // bluetooth.printNewLine();
+        bluetooth.printCustom(
+            "por su compra", Size.boldMedium.val, Align.center.val);
+        bluetooth.printNewLine();
+        bluetooth.printNewLine();
+        bluetooth.printNewLine();
+
+        bluetooth
+            .paperCut(); //some printer not supported (sometime making image not centered)
+        //bluetooth.drawerPin2(); // or you can use bluetooth.drawerPin5();
+      }
+    });
+  }
+
+  test() async {
+    //image max 300px X 300px
+
+    ///image from File path
+    String filename = 'logo.png';
+    ByteData bytesData = await rootBundle.load("assets/logo_.png");
+    String dir = (await getApplicationDocumentsDirectory()).path;
+    File file = await File('$dir/$filename').writeAsBytes(bytesData.buffer
+        .asUint8List(bytesData.offsetInBytes, bytesData.lengthInBytes));
+
+    ///image from Asset
+    // ByteData bytesAsset = await rootBundle.load("assets/logo.png");
+    // Uint8List imageBytesFromAsset = bytesAsset.buffer
+    //     .asUint8List(bytesAsset.offsetInBytes, bytesAsset.lengthInBytes);
+
+    ///image from Network
+    // var response = await http.get(Uri.parse(
+    //     "https://raw.githubusercontent.com/kakzaki/blue_thermal_printer/master/example/assets/images/yourlogo.png"));
+    // Uint8List bytesNetwork = response.bodyBytes;
+    // Uint8List imageBytesFromNetwork = bytesNetwork.buffer
+    //     .asUint8List(bytesNetwork.offsetInBytes, bytesNetwork.lengthInBytes);
+
+    bluetooth.isConnected.then((isConnected) {
+      if (isConnected == true) {
+        bluetooth.printNewLine();
+        // bluetooth.printImage(file.path);
+        // bluetooth.printNewLine();
+        // bluetooth.printNewLine();
+        bluetooth.printCustom("Exito al conectar el dispositivo bluetooth.",
+            Size.boldLarge.val, Align.center.val);
+        bluetooth.printNewLine();
+        bluetooth.printNewLine();
+
+        bluetooth.printImage(file.path);
+        bluetooth.printNewLine();
+        bluetooth.printNewLine();
+        //path of your image/logo
+        // bluetooth.printNewLine();
+        bluetooth.printCustom("FECHA: " + DateTime.now().toString(),
+            Size.medium.val, Align.left.val);
+
+        bluetooth.printCustom("__________________________________________",
+            Size.medium.val, Align.center.val);
+        // bluetooth.printLeftRight("LEFT", "RIGHT", Size.medium.val);
+        // bluetooth.printLeftRight("LEFT", "RIGHT", Size.bold.val);
+        // bluetooth.printLeftRight("LEFT", "RIGHT", Size.bold.val,
+        //     format:
+        //         "%-15s %15s %n"); //15 is number off character from left or right
+        // bluetooth.printNewLine();
+        // bluetooth.printLeftRight("LEFT", "RIGHT", Size.boldMedium.val);
+        // bluetooth.printLeftRight("LEFT", "RIGHT", Size.boldLarge.val);
+        // bluetooth.printLeftRight("LEFT", "RIGHT", Size.extraLarge.val);
+        // bluetooth.printNewLine();
+        // bluetooth.print3Column("Col1", "Col2", "Col3", Size.bold.val);
+        // bluetooth.print3Column("Col1", "Col2", "Col3", Size.bold.val,
+        //     format:
+        //         "%-10s %10s %10s %n"); //10 is number off character from left center and right
+
+        // bluetooth.printNewLine();
+
+        // bluetooth.print4Column(
+        //     "CANT", "DESCRIP.", "P.U.", "TOTAL", Size.bold.val);
+
+        // bluetooth.printNewLine();
+        // bluetooth.printCustom("čĆžŽšŠ-H-ščđ", Size.bold.val, Align.center.val,
+        //     charset: "windows-1250");
+        // bluetooth.printLeftRight("Številka:", "18000001", Size.bold.val,
+        //     charset: "windows-1250");
+
+        bluetooth.printCustom(
+            "Mire nuestros trabajos.", Size.bold.val, Align.center.val);
+        bluetooth.printQRcode(
+            "https://www.pinterest.es/", 370, 200, Align.right.val);
         bluetooth.printNewLine();
         bluetooth.printNewLine();
 

@@ -1,3 +1,5 @@
+import 'package:firebase_orders_flutter/controllers/controllerDetaorden.dart';
+import 'package:firebase_orders_flutter/controllers/controllerOrdenes.dart';
 import 'package:firebase_orders_flutter/controllers/controllerProductos.dart';
 import 'package:firebase_orders_flutter/pages/homepage.dart';
 import 'package:firebase_orders_flutter/pages/imagenpage.dart';
@@ -45,9 +47,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(
-          create: (context) => ProviderProductos(),
-        )
+        ChangeNotifierProvider(create: (context) => ProviderProductos()),
+        ChangeNotifierProvider(create: (context) => ProviderOrdenes()),
+        ChangeNotifierProvider(create: (context) => ProviderDetaorden())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
