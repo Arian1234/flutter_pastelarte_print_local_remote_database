@@ -1,12 +1,12 @@
 import 'dart:developer';
-
-import 'package:blue_thermal_printer/blue_thermal_printer.dart';
-import 'package:firebase_orders_flutter/pages/impresoraAlertDialog.dart';
+import 'package:firebase_orders_flutter/controllers/controllerCategorias.dart';
+import 'package:firebase_orders_flutter/controllers/controllerClientes.dart';
+import 'package:firebase_orders_flutter/pages/categoriasPage_query.dart';
+import 'package:firebase_orders_flutter/pages/clientesPage_query.dart';
+import 'package:firebase_orders_flutter/pages/impresora/impresoraAlertDialog.dart';
 import 'package:firebase_orders_flutter/pages/OrdenPage.dart';
 import 'package:firebase_orders_flutter/pages/productosPage_query.dart';
-import 'package:firebase_orders_flutter/pages/testprint.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../controllers/controllerProductos.dart';
 
@@ -27,6 +27,7 @@ class _homePageState extends State<homePage> {
   Widget build(BuildContext context) {
     double _ancho = MediaQuery.of(context).size.width;
     double _alto = MediaQuery.of(context).size.height;
+    final prov = Provider.of<ProviderCategorias>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -66,23 +67,26 @@ class _homePageState extends State<homePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
-            DrawerHeader(
-              // decoration: BoxDecoration(color: Colors.pink[500]),
-              decoration: BoxDecoration(
-                color: Color.fromARGB(251, 80, 199, 214),
-              ),
-              child: Column(
-                children: [
-                  CircleAvatar(
-                      radius: _alto * .065,
-                      backgroundColor: Colors.transparent,
-                      child:
-                          const Image(image: AssetImage('assets/logo_.png'))),
-                  const Text(
-                    'Pasteleria Pastel`arte',
-                    style: TextStyle(color: Colors.white, fontSize: 17),
-                  )
-                ],
+            Container(
+              height: _alto * .25,
+              child: DrawerHeader(
+                // decoration: BoxDecoration(color: Colors.pink[500]),
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(251, 80, 199, 214),
+                ),
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                        radius: _alto * .065,
+                        backgroundColor: Colors.transparent,
+                        child:
+                            const Image(image: AssetImage('assets/logo_.png'))),
+                    const Text(
+                      'Pasteleria Pastel`arte',
+                      style: TextStyle(color: Colors.white, fontSize: 17),
+                    )
+                  ],
+                ),
               ),
             ),
             ListTile(
@@ -113,14 +117,32 @@ class _homePageState extends State<homePage> {
               leading: const Icon(Icons.add_task),
               trailing: const Icon(Icons.arrow_forward_ios),
               iconColor: Colors.pink[400],
-              onTap: () {},
+              onTap: () {
+                final prov =
+                    Provider.of<ProviderCategorias>(context, listen: false);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          categoriasPage_query(provforaneo: prov),
+                    ));
+              },
             ),
             ListTile(
               title: const Text('Clientes'),
               leading: const Icon(Icons.supervised_user_circle_outlined),
               trailing: const Icon(Icons.arrow_forward_ios),
               iconColor: Colors.pink[400],
-              onTap: () => Navigator.pop(context),
+              onTap: () {
+                final prov =
+                    Provider.of<ProviderClientes>(context, listen: false);
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          clientesPage_query(provforaneo: prov),
+                    ));
+              },
             ),
             const SizedBox(
               height: 10,

@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+import 'package:firebase_orders_flutter/pages/productosPage_insert.dart';
 import 'package:firebase_orders_flutter/widgets/textformfieldcustom.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -40,7 +43,7 @@ class _productosPage_queryState extends State<productosPage_query> {
                   Navigator.pushNamed(context, 'productos_insert');
                 },
                 icon: const Icon(
-                  Icons.add,
+                  Icons.new_releases_rounded,
                   size: 30,
                 )),
           )
@@ -48,7 +51,7 @@ class _productosPage_queryState extends State<productosPage_query> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 14),
           child: Container(
             width: _ancho,
             child: Column(
@@ -57,30 +60,34 @@ class _productosPage_queryState extends State<productosPage_query> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     textformfieldsintitle(
-                        ancho: _ancho * .8,
-                        controllerfield: _controllerbuscador,
-                        hinttext: 'Buscar producto .',
-                        textinputype: TextInputType.text,
-                        habilitado: true),
-                    SizedBox(
-                      width: _ancho * .02,
+                      clase: "productos",
+                      ancho: _ancho * .8,
+                      controllerfield: _controllerbuscador,
+                      hinttext: 'B. producto por nombre',
+                      textinputype: TextInputType.text,
+                      habilitado: true,
+                      prov: prov,
+                      busc: _controllerbuscador.text,
                     ),
-                    IconButton(
-                        onPressed: () {
-                          if (_controllerbuscador.text.toString().isNotEmpty) {
-                            prov.ObtenerProducto(
-                                '%${_controllerbuscador.text}%');
-                          }
-                        },
-                        icon: Icon(
-                          Icons.search,
-                          color: Colors.teal[400],
-                          size: 30,
-                        ))
+                    // SizedBox(
+                    //   width: _ancho * .02,
+                    // ),
+                    // IconButton(
+                    //     onPressed: () {
+                    //       if (_controllerbuscador.text.toString().isNotEmpty) {
+                    //         prov.ObtenerProducto(
+                    //             '%${_controllerbuscador.text}%');
+                    //       }
+                    //     },
+                    //     icon: Icon(
+                    //       Icons.search,
+                    //       color: Colors.teal[400],
+                    //       size: 30,
+                    //     ))
                   ],
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 15, left: 15, bottom: 10),
+                  padding: const EdgeInsets.only(top: 10, left: 15, bottom: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -96,31 +103,81 @@ class _productosPage_queryState extends State<productosPage_query> {
                 ),
                 SizedBox(
                   width: _ancho * .95,
-                  height: _alto * .80,
+                  height: _alto * .77,
                   child: Center(
                     child: ListView.builder(
                       itemCount: prov.prod.length,
                       itemBuilder: (context, index) {
-                        return Card(
-                          color: Colors.teal[100],
-                          child: ListTile(
-                            title: Text(
-                              prov.prod[index].nombprod.toString(),
-                              style:
-                                  const TextStyle(fontWeight: FontWeight.w400),
+                        return Stack(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 1),
+                              child: Card(
+                                color: Colors.teal[100],
+                                child: ListTile(
+                                  title: Text(
+                                    prov.prod[index].nombprod.toString(),
+                                    style: const TextStyle(
+                                        fontWeight: FontWeight.w400),
+                                  ),
+                                  subtitle: Text(
+                                    "${prov.prod[index].cantprod.toString()} unidad(es)",
+                                  ),
+                                  leading: CircleAvatar(
+                                      backgroundColor: Colors.teal,
+                                      child: Text(
+                                          prov.prod[index].idprod.toString())),
+                                  trailing: Text(
+                                    "${prov.prod[index].ventaprod} sol(es).",
+                                    style:
+                                        const TextStyle(color: Colors.black45),
+                                  ),
+                                ),
+                              ),
                             ),
-                            subtitle: Text(
-                              prov.prod[index].cantprod.toString(),
-                            ),
-                            leading: CircleAvatar(
-                                backgroundColor: Colors.teal,
-                                child:
-                                    Text(prov.prod[index].idprod.toString())),
-                            trailing: Text(
-                              "${prov.prod[index].ventaprod} sol(es).",
-                              style: const TextStyle(color: Colors.black45),
-                            ),
-                          ),
+                            Positioned(
+                                right: 0,
+                                top: 0,
+                                child: GestureDetector(
+                                  onTap: () {
+                                    log("Se acaba de presionar producto con codigo : ${prov.prod[index].idprod}");
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => productosPage_insert(
+                                              id: prov.prod[index].idprod
+                                                  .toString(),
+                                              prod: prov.prod[index].nombprod
+                                                  .toString(),
+                                              descrip: prov
+                                                  .prod[index].descripprod
+                                                  .toString(),
+                                              cantprod: prov
+                                                  .prod[index].cantprod
+                                                  .toString(),
+                                              cantmin: prov.prod[index].minstock
+                                                  .toString(),
+                                              preccost: prov
+                                                  .prod[index].precioprod
+                                                  .toString(),
+                                              precvent: prov
+                                                  .prod[index].ventaprod
+                                                  .toString(),
+                                              despinst: prov
+                                                  .prod[index].despachorecep
+                                                  .toString()),
+                                        ));
+                                  },
+                                  child: CircleAvatar(
+                                      radius: 18,
+                                      backgroundColor: (Colors.pink[400]),
+                                      foregroundColor: Colors.red,
+                                      child: const Icon(
+                                        Icons.refresh_sharp,
+                                        color: Colors.white,
+                                      )),
+                                )),
+                          ],
                         );
                       },
                     ),

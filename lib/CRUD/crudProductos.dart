@@ -11,13 +11,22 @@ class DbCrudProductos {
     return res;
   }
 
-  Future<int> ActualizarProductos(int cod, String nombre, String descrip,
-      String img, double cant, double costo, double venta, int est) async {
+  Future<int> ActualizarProductos(
+      int cod,
+      String nombre,
+      String descrip,
+      String categ,
+      String img,
+      double cant,
+      double min,
+      double costo,
+      double venta,
+      int desrec) async {
     final db = await DBProvider.db.getdatabase();
     final res = await db.rawUpdate(
-        '''UPDATE PRODUCTOS SET nombprod=?,descripprod=?,imgprod=?,cantprod=?,costoprod=?,
-        ventaprod=?,estprod=? where idprod=? ''',
-        [nombre, descrip, img, cant, costo, venta, est, cod]);
+        '''UPDATE PRODUCTOS SET nombprod=?,descripprod=?,categprod=?,imgprod=?,cantprod=?,minstock=?,precioprod=?,
+        ventaprod=?,despachorecep=? where idprod=? ''',
+        [nombre, descrip, categ, img, cant, min, costo, venta, desrec, cod]);
     return res;
   }
 

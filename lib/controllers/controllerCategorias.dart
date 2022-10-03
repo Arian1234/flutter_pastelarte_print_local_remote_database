@@ -17,7 +17,12 @@ class ProviderCategorias extends ChangeNotifier {
   }
 
   ActualizarCategoria(int cod, String categ) async {
+    final model = Categorias(idcateg: cod, nombCateg: categ);
     await DbCrudCategorias.dbp.ActualizarCategorias(cod, categ);
+    int index = cat.indexWhere((element) => element.idcateg == cod);
+    log(index.toString());
+    cat.removeAt(index);
+    cat.insert(index, model);
     notifyListeners();
   }
 
@@ -29,6 +34,14 @@ class ProviderCategorias extends ChangeNotifier {
       log(cat[i].nombCateg.toString() + " - " + cat[i].idcateg.toString());
     }
     notifyListeners();
+  }
+
+  static Future<List<Map<String, dynamic>>>
+      obtenerCategoriaDropDownButton() async {
+    log('buscando');
+    final db = await DBProvider.db.getdatabase();
+    // notifyListeners();
+    return await db.rawQuery("SELECT * FROM CATEGORIAS");
   }
 
   Future<List<String>> getFieldDataAsString() async {

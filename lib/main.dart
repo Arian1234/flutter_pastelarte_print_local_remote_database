@@ -1,6 +1,10 @@
+import 'package:firebase_orders_flutter/controllers/controllerCategorias.dart';
+import 'package:firebase_orders_flutter/controllers/controllerClientes.dart';
 import 'package:firebase_orders_flutter/controllers/controllerDetaorden.dart';
 import 'package:firebase_orders_flutter/controllers/controllerOrdenes.dart';
 import 'package:firebase_orders_flutter/controllers/controllerProductos.dart';
+import 'package:firebase_orders_flutter/pages/categoriasPage_insert.dart';
+import 'package:firebase_orders_flutter/pages/clientesPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/homepage.dart';
 import 'package:firebase_orders_flutter/pages/productosPage_insert.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +41,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (context) => ProviderProductos()),
         ChangeNotifierProvider(create: (context) => ProviderOrdenes()),
-        ChangeNotifierProvider(create: (context) => ProviderDetaorden())
+        ChangeNotifierProvider(create: (context) => ProviderCategorias()),
+        ChangeNotifierProvider(create: (context) => ProviderDetaorden()),
+        ChangeNotifierProvider(create: (context) => ProviderClientes()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -45,7 +51,9 @@ class _MyAppState extends State<MyApp> {
         home: const homePage(),
         routes: {
           'home': (context) => const homePage(),
-          'productos_insert': (context) => productosPage_insert(),
+          'productos_insert': (context) => const productosPage_insert(),
+          'categorias_insert': (context) => const categoriasPage_insert(),
+          'clientes_insert': (context) => const clientesPage_insert(),
         },
         theme: ThemeData(
             colorScheme: ColorScheme.fromSwatch().copyWith(

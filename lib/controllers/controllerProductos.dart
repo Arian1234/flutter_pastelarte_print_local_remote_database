@@ -35,10 +35,35 @@ class ProviderProductos extends ChangeNotifier {
     notifyListeners();
   }
 
-  ActualizarProducto(int cod, String nomb, String desc, String img, double cant,
-      double cost, double vent, int est) async {
-    await DbCrudProductos.dbp
-        .ActualizarProductos(cod, nomb, desc, img, cant, cost, vent, est);
+  ActualizarProducto(
+      int cod,
+      String nombre,
+      String descrip,
+      String categ,
+      String img,
+      double cant,
+      double min,
+      double costo,
+      double venta,
+      int desrec) async {
+    final model = Productos(
+        idprod: cod,
+        nombprod: nombre,
+        descripprod: descrip,
+        categprod: categ,
+        imgprod: img,
+        cantprod: cant,
+        minstock: min,
+        precioprod: costo,
+        ventaprod: venta,
+        despachorecep: desrec);
+    await DbCrudProductos.dbp.ActualizarProductos(
+        cod, nombre, descrip, categ, img, cant, min, costo, venta, desrec);
+
+    int index = prod.indexWhere((element) => element.idprod == cod);
+    log(index.toString());
+    prod.removeAt(index);
+    prod.insert(index, model);
     notifyListeners();
   }
 

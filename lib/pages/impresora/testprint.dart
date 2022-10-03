@@ -1,5 +1,5 @@
 import 'package:firebase_orders_flutter/controllers/controllerProductos.dart';
-import 'package:firebase_orders_flutter/pages/printerenum.dart';
+import 'package:firebase_orders_flutter/pages/impresora/printerenum.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
@@ -37,9 +37,8 @@ class TestPrint {
         bluetooth.printNewLine();
         bluetooth.printCustom(
             "NOTA DE VENTA", Size.medium.val, Align.center.val);
-        bluetooth.printNewLine();
         bluetooth.printCustom(
-            "CONTACTO : XXX XXX XXX", Size.medium.val, Align.center.val);
+            "CONTACTO : 930 621 387", Size.medium.val, Align.center.val);
         bluetooth.printNewLine();
         bluetooth.printCustom("NRO NV: $unix", Size.medium.val, Align.left.val);
         bluetooth.printCustom(
