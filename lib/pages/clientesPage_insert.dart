@@ -1,7 +1,5 @@
 import 'dart:developer';
 import 'package:firebase_orders_flutter/controllers/controllerClientes.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
@@ -455,8 +453,6 @@ class _clientesPage_insertState extends State<clientesPage_insert> {
 
   @override
   Widget build(BuildContext context) {
-    final storageRef = FirebaseStorage.instance.ref();
-    FirebaseDatabase database = FirebaseDatabase.instance;
     final prov = Provider.of<ProviderClientes>(context, listen: true);
 
     return Scaffold(

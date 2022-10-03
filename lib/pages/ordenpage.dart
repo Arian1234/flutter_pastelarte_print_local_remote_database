@@ -1,9 +1,7 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_orders_flutter/controllers/controllerDetaorden.dart';
 import 'package:firebase_orders_flutter/controllers/controllerOrdenes.dart';
-import 'package:firebase_orders_flutter/pages/homepage.dart';
 import 'package:firebase_orders_flutter/pages/impresora/testprint.dart';
 import 'package:firebase_orders_flutter/widgets/textformfieldcustom.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +24,7 @@ class ordenPage extends StatefulWidget {
 }
 
 class _ordenPageState extends State<ordenPage> {
-  final fb = FirebaseDatabase.instance.ref().child('products');
+  // final fb = FirebaseDatabase.instance.ref().child('products');
   ScreenshotController screenshotController = ScreenshotController();
   // List list = [];
   var listado = [];
@@ -82,7 +80,7 @@ class _ordenPageState extends State<ordenPage> {
                             total = total + sd;
                           }
                         }
-                        if (total > 0.toDecimal()) {
+                        if (cant > 0) {
                           return Container(
                             width: _ancho * .9,
                             height: _alto * .6,
@@ -553,14 +551,14 @@ class _ordenPageState extends State<ordenPage> {
                                                 prov.prod[index].cantprod
                                                     .toString(),
                                             style: TextStyle(
-                                                fontWeight: FontWeight.w300,
-                                                fontSize: 16,
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 18,
                                                 color: Colors.red.shade900),
                                           ),
                                           Text(
                                             "cant. actual",
                                             style: TextStyle(
-                                                fontWeight: FontWeight.w200,
+                                                fontWeight: FontWeight.w300,
                                                 fontSize: 16,
                                                 color: Colors.red.shade700),
                                           ),

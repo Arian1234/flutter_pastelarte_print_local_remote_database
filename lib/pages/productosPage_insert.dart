@@ -1,7 +1,5 @@
 import 'dart:developer';
 import 'package:firebase_orders_flutter/controllers/controllerCategorias.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
@@ -714,8 +712,7 @@ class _productosPage_insertState extends State<productosPage_insert> {
 
   @override
   Widget build(BuildContext context) {
-    final storageRef = FirebaseStorage.instance.ref();
-    FirebaseDatabase database = FirebaseDatabase.instance;
+
     final prov = Provider.of<ProviderProductos>(context, listen: true);
 
     return Scaffold(
