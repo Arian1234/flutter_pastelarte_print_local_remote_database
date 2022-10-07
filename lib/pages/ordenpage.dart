@@ -24,9 +24,7 @@ class ordenPage extends StatefulWidget {
 }
 
 class _ordenPageState extends State<ordenPage> {
-  // final fb = FirebaseDatabase.instance.ref().child('products');
   ScreenshotController screenshotController = ScreenshotController();
-  // List list = [];
   var listado = [];
   var iniciado = 1;
   int cant = 0;
@@ -48,6 +46,7 @@ class _ordenPageState extends State<ordenPage> {
     final provdetaordenes =
         Provider.of<ProviderDetaorden>(context, listen: false);
     Decimal total = 0.toDecimal();
+    Decimal pcosto = 0.toDecimal();
 
     return Scaffold(
       appBar: AppBar(
@@ -67,6 +66,7 @@ class _ordenPageState extends State<ordenPage> {
                       builder: (BuildContext context) {
                         log("acabo de entrar al builder");
                         total = 0.toDecimal();
+                        pcosto = 0.toDecimal();
                         //  prov.ObtenerProducto('%%');
                         // ignore: prefer_interpolation_to_compose_strings
                         log("items.length:  listado " +
@@ -77,7 +77,12 @@ class _ordenPageState extends State<ordenPage> {
                             var sd = Decimal.parse(listado[i].toString()) *
                                 Decimal.parse(
                                     prov.prod[i].ventaprod.toString());
+                            var cost = Decimal.parse(listado[i].toString()) *
+                                Decimal.parse(
+                                    prov.prod[i].precioprod.toString());
                             total = total + sd;
+
+                            pcosto = pcosto + cost;
                           }
                         }
                         if (cant > 0) {
@@ -102,6 +107,7 @@ class _ordenPageState extends State<ordenPage> {
                                           onTap: () {
                                             Navigator.pop(context);
                                             total = 0.toDecimal();
+                                            pcosto = 0.toDecimal();
                                           },
                                           child: buttonmodal(
                                             ancho: _ancho * .20,
@@ -150,22 +156,30 @@ class _ordenPageState extends State<ordenPage> {
                                         GestureDetector(
                                           onTap: () async {
                                             final now = DateTime.now();
+                                            // String fecha =
+                                            //     ("${now.day}/${now.month}/${now.year}");
+                                            String day =
+                                                "0" + now.day.toString();
+                                            String days = (day.substring(
+                                                day.length - 2, day.length));
                                             String fecha =
-                                                ("${now.day}-${now.month}-${now.year}");
+                                                ("${now.year}-${now.month}-${days}");
+
                                             String unix = DateTime.now()
                                                 .toUtc()
                                                 .millisecondsSinceEpoch
                                                 .toString();
+
                                             final idorden =
                                                 await provordenes.AgregarOrden(
                                                     unix,
-                                                    "VARIOS",
+                                                    1,
                                                     fecha,
                                                     fecha,
                                                     "0",
                                                     total.toDouble(),
                                                     total.toDouble(),
-                                                    0,
+                                                    (total - pcosto).toDouble(),
                                                     "---",
                                                     0);
 
@@ -176,8 +190,8 @@ class _ordenPageState extends State<ordenPage> {
                                                 provdetaordenes
                                                     .AgregarDetaorden(
                                                         idorden,
-                                                        prov.prod[i].nombprod
-                                                            .toString(),
+                                                        (prov.prod[i].idprod)!
+                                                            .toInt(),
                                                         prov.prod[i].precioprod!
                                                             .toDouble(),
                                                         prov.prod[i].ventaprod!
@@ -230,7 +244,7 @@ class _ordenPageState extends State<ordenPage> {
                                             fontSize: 22),
                                       ),
                                       Text(
-                                        ' $total soles',
+                                        ' $total soles ${total - pcosto}',
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontStyle: FontStyle.italic,
@@ -303,9 +317,8 @@ class _ordenPageState extends State<ordenPage> {
                                                             .prod[index]
                                                             .ventaprod
                                                             .toString());
-                                                    // total = total + sd;
+
                                                     return Card(
-                                                      // color: Colors.lightBlue[50],
                                                       color: prov.prod[index]
                                                                   .despachorecep ==
                                                               1

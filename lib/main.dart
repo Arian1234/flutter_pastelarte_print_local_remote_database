@@ -3,10 +3,12 @@ import 'package:firebase_orders_flutter/controllers/controllerClientes.dart';
 import 'package:firebase_orders_flutter/controllers/controllerDetaorden.dart';
 import 'package:firebase_orders_flutter/controllers/controllerOrdenes.dart';
 import 'package:firebase_orders_flutter/controllers/controllerProductos.dart';
+import 'package:firebase_orders_flutter/controllers/controllerReporteVentas.dart';
 import 'package:firebase_orders_flutter/pages/categoriasPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/clientesPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/homepage.dart';
 import 'package:firebase_orders_flutter/pages/productosPage_insert.dart';
+import 'package:firebase_orders_flutter/pages/reports/ventashoyPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -41,6 +43,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => ProviderCategorias()),
         ChangeNotifierProvider(create: (context) => ProviderDetaorden()),
         ChangeNotifierProvider(create: (context) => ProviderClientes()),
+        ChangeNotifierProvider(create: (context) => ProviderReporteVenta()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -51,6 +54,8 @@ class _MyAppState extends State<MyApp> {
           'productos_insert': (context) => const productosPage_insert(),
           'categorias_insert': (context) => const categoriasPage_insert(),
           'clientes_insert': (context) => const clientesPage_insert(),
+          //Reportes
+          'rpt_ventashoy': (context) => const ventashoyPage(),
         },
         theme: ThemeData(
             colorScheme: ColorScheme.fromSwatch().copyWith(

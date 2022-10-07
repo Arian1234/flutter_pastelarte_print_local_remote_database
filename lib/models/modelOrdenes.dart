@@ -12,7 +12,7 @@ class Orden {
   Orden({
     this.idord,
     this.unix,
-    this.nombclie,
+    this.idclie,
     this.fechahoraord,
     this.fechahoradesp,
     this.deliveryord,
@@ -25,7 +25,7 @@ class Orden {
 
   int? idord;
   String? unix;
-  String? nombclie;
+  int? idclie;
   String? fechahoraord;
   String? fechahoradesp;
   String? deliveryord;
@@ -38,7 +38,7 @@ class Orden {
   factory Orden.fromJson(Map<String, dynamic> json) => Orden(
         idord: json["idord"],
         unix: json["unix"],
-        nombclie: json["nombclie"],
+        idclie: json["idclie"],
         fechahoraord: json["fechahoraord"],
         fechahoradesp: json["fechahoradesp"],
         deliveryord: json["deliveryord"],
@@ -52,7 +52,7 @@ class Orden {
   Map<String, dynamic> toJson() => {
         "idord": idord,
         "unix": unix,
-        "nombclie": nombclie,
+        "idclie": idclie,
         "fechahoraord": fechahoraord,
         "fechahoradesp": fechahoradesp,
         "deliveryord": deliveryord,

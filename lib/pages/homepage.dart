@@ -1,12 +1,14 @@
 import 'dart:developer';
 import 'package:firebase_orders_flutter/controllers/controllerCategorias.dart';
 import 'package:firebase_orders_flutter/controllers/controllerClientes.dart';
+import 'package:firebase_orders_flutter/database/db_dbprovider.dart';
 import 'package:firebase_orders_flutter/pages/categoriasPage_query.dart';
 import 'package:firebase_orders_flutter/pages/clientesPage_query.dart';
 import 'package:firebase_orders_flutter/pages/impresora/impresoraAlertDialog.dart';
 import 'package:firebase_orders_flutter/pages/OrdenPage.dart';
 import 'package:firebase_orders_flutter/pages/productosPage_query.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:provider/provider.dart';
 import '../controllers/controllerProductos.dart';
 
@@ -156,11 +158,13 @@ class _homePageState extends State<homePage> {
               height: 10,
             ),
             ListTile(
-              title: const Text('Rpt. ordenes'),
+              title: const Text('Rpt. ventas hoy'),
               leading: const Icon(Icons.content_paste_search_rounded),
               trailing: const Icon(Icons.arrow_forward_ios),
               iconColor: Colors.teal[400],
-              onTap: () => Navigator.pop(context),
+              onTap: () {
+                Navigator.pushNamed(context, "rpt_ventashoy");
+              },
             ),
             ListTile(
               title: const Text('Rpt. proformas'),
@@ -181,7 +185,29 @@ class _homePageState extends State<homePage> {
               leading: const Icon(Icons.add_business_rounded),
               trailing: const Icon(Icons.arrow_forward_ios),
               iconColor: Colors.teal[400],
-              onTap: () => Navigator.pop(context),
+              onTap: () async {
+                try {
+                  // final zipFile = File(paths);
+                  // ZipFile.createFromDirectory(
+                  //     sourceDir: dataDir, zipFile: zipFile, recurseSubDirs: true);
+                  // log(zipFile.path);
+                  // log(dataDir.path);
+                  DBProvider.db.getdatabase();
+                  final Email email = Email(
+                    body: 'Se adjunta db :',
+                    subject: 'Backup db app',
+                    recipients: ['amolina5678@hotmail.com'],
+                    // cc: ['cc@examplez.com'],
+                    // bcc: ['bcc@examplez.com'],
+                    // attachmentPaths: ['/path/to/attachment.zip'],
+                    attachmentPaths: [DBProvider.db.parche()],
+                    isHTML: false,
+                  );
+                  await FlutterEmailSender.send(email);
+                } catch (e) {
+                  print(e);
+                }
+              },
             ),
           ],
         ),

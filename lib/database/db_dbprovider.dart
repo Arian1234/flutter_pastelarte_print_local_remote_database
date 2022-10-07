@@ -1,8 +1,14 @@
+import 'dart:developer';
+import 'dart:io';
+
+import 'package:flutter_archive/flutter_archive.dart';
+import 'package:flutter_email_sender/flutter_email_sender.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 // import 'package:path_provider/path_provider.dart';
 
 class DBProvider {
+  static String _parch = '';
   static Database? _database;
   static final DBProvider db = DBProvider._();
   DBProvider._();
@@ -10,13 +16,35 @@ class DBProvider {
     return _database ??= await initdatabase();
   }
 
+  String parche() {
+    return _parch;
+  }
+
+  _parche(String x) {
+    _parch = x;
+  }
+
   Future<Database> initdatabase() async {
     var dbpath = await getDatabasesPath();
-    String paths = join(dbpath, 'dbpastelsa.db');
+    log("ruta: " + dbpath);
+    _parch = join(dbpath, 'dbpastelsaqqqqqqqq.db');
+//
+    // final dataDir = Directory(dbpath);
+
+// final Email email = Email(
+//   body: 'Email body',
+//   subject: 'Email subject',
+//   recipients: ['amolina5678@hotmail.com'],
+//   cc: ['cc@examples.com'],
+//   bcc: ['bcc@examples.com'],
+//   attachmentPaths: ['/path/to/attachment.zip'],
+//   isHTML: false,
+// );
+    // await FlutterEmailSender.send(email);
 
     return await openDatabase(
-      paths,
-      version: 7,
+      _parch,
+      version: 13,
       onOpen: (db) {},
       onCreate: (db, version) async {
         await db.execute(categorias);
@@ -24,6 +52,7 @@ class DBProvider {
         await db.execute(productos);
         await db.execute(orden);
         await db.execute(detaorden);
+        await db.execute(inserts);
       },
     );
   }
@@ -62,9 +91,9 @@ CREATE TABLE PRODUCTOS(
 CREATE TABLE ORDEN(
   idord INTEGER PRIMARY KEY,
   unix TEXT,
-  nombclie TEXT,
-  fechahoraord TEXT,
-  fechahoradesp TEXT,
+  idclie INTEGER,
+  fechahoraord DATETIME,
+  fechahoradesp DATETIME,
   deliveryord TEXT,
   totalord DECIMAL(7,2),
   amortizoord DECIMAL(7,2),
@@ -77,11 +106,15 @@ CREATE TABLE ORDEN(
 CREATE TABLE DETAORDEN(
   iddetaord INTEGER PRIMARY KEY,
   idord INTEGER,
-  nombprod TEXT,
+  idprod INTEGER,
   preciocprod DECIMAL(7,2),
   preciovprod DECIMAL(7,2),
   cantprod DECIMAL(7,2)
 );
 
+''';
+  String inserts = '''
+INSERT INTO CATEGORIAS(idcateg,nombcateg) VALUES(null,"VARIOS"); 
+INSERT INTO CLIENTES(idclie,nombclie,docclie,dirclie,celclie) VALUES(null,"VARIOS","0000","---","0000");
 ''';
 }

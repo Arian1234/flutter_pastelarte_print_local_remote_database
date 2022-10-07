@@ -10,7 +10,7 @@ class ProviderOrdenes extends ChangeNotifier {
 
   Future<int> AgregarOrden(
       String uni,
-      String nombcli,
+      int idcli,
       String fechaord,
       String fechadesp,
       String delivery,
@@ -21,7 +21,7 @@ class ProviderOrdenes extends ChangeNotifier {
       int esta) async {
     final model = Orden(
         unix: uni,
-        nombclie: nombcli,
+        idclie: idcli,
         fechahoraord: fechaord,
         fechahoradesp: fechadesp,
         deliveryord: delivery,
@@ -50,7 +50,7 @@ class ProviderOrdenes extends ChangeNotifier {
     final model = await DbCrudOrdenes.dbp.GetOrden(busqueda.toString());
     prod = [...model];
     for (var i = 0; i < prod.length; i++) {
-      log("${prod[i].nombclie} - ${prod[i].idord} - ${prod[i].unix}");
+      log("${prod[i].idclie} - ${prod[i].idord} - ${prod[i].unix}");
     }
     notifyListeners();
   }

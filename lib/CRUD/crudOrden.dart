@@ -22,7 +22,7 @@ class DbCrudOrdenes {
         margenord=?,
         anotacord=? where idord=?
          ''', [
-      orden.nombclie,
+      orden.idclie,
       orden.fechahoraord,
       orden.fechahoradesp,
       orden.deliveryord,

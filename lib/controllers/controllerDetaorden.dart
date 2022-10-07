@@ -6,11 +6,11 @@ import '../models/modelDetaOrden.dart';
 class ProviderDetaorden extends ChangeNotifier {
   List<Detaorden> prod = [];
 
-  AgregarDetaorden(int idor, String produ, double precio, double preciov,
-      double cant) async {
+  AgregarDetaorden(
+      int idor, int idpro, double precio, double preciov, double cant) async {
     final model = Detaorden(
         idord: idor,
-        nombprod: produ,
+        idprod: idpro,
         preciocprod: precio,
         preciovprod: preciov,
         cantprod: cant);

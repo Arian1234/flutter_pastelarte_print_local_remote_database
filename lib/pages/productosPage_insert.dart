@@ -51,7 +51,7 @@ class _productosPage_insertState extends State<productosPage_insert> {
   bool _switchDespacho = false;
   String estado = 'Nuevo';
   List<DropdownMenuItem<String>> list = [];
-  String _valordropdownbutton = '1 postres dulces';
+  String _valordropdownbutton = '1 VARIOS';
 
   void _setImageFileListFromFile(XFile? value) {
     // capturamos el parametro y lo asignamos a _imageFileList
@@ -99,7 +99,6 @@ class _productosPage_insertState extends State<productosPage_insert> {
       setState(() {
         estado = 'Actualizar';
         _switchDespacho = widget.despinst.toString() == '1' ? true : false;
-        // String _valordropdownbutton = list.first.value.toString();
       });
     }
     ;
@@ -269,7 +268,6 @@ class _productosPage_insertState extends State<productosPage_insert> {
         list.add(element);
       });
       log("lista cargada");
-      // _valordropdownbutton = list.first.value.toString();
     });
   }
 
@@ -289,7 +287,6 @@ class _productosPage_insertState extends State<productosPage_insert> {
     final double _ancho = MediaQuery.of(context).size.width;
     final double _alto = MediaQuery.of(context).size.height;
 
-    // _valordropdownbutton = list.first.value.toString as String;
     log("aqui estoy");
     return GestureDetector(
       // onTap: () => FocusScope.of(context).unfocus(),
@@ -455,7 +452,6 @@ class _productosPage_insertState extends State<productosPage_insert> {
                                           child: CircularProgressIndicator(),
                                         );
                                       } else {
-                                        // _valordropdownbutton = list.first.value.toString();
                                         return DropdownButton(
                                           hint: const Text("S. una categoría"),
                                           items: list,
@@ -471,17 +467,6 @@ class _productosPage_insertState extends State<productosPage_insert> {
                                     },
                                   ),
                                 ),
-
-                                // DropdownButton(
-                                //       hint: const Text("S. una categoría"),
-                                //       items: list,
-                                //       onChanged: (value) {
-                                //         setState(() {
-                                //           _valordropdownbutton = value.toString();
-                                //         });
-                                //       },
-                                //       value: _valordropdownbutton,
-                                //     ),
                               ],
                             )),
                         const SizedBox(
@@ -712,7 +697,6 @@ class _productosPage_insertState extends State<productosPage_insert> {
 
   @override
   Widget build(BuildContext context) {
-
     final prov = Provider.of<ProviderProductos>(context, listen: true);
 
     return Scaffold(
