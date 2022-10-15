@@ -30,6 +30,7 @@ class _homePageState extends State<homePage> {
     double _ancho = MediaQuery.of(context).size.width;
     double _alto = MediaQuery.of(context).size.height;
     final prov = Provider.of<ProviderCategorias>(context, listen: false);
+    bool validator = false;
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -50,16 +51,14 @@ class _homePageState extends State<homePage> {
                       );
                     });
               },
-              icon: const Icon(
-                Icons.bluetooth,
-              )),
+              icon: Icon(Icons.bluetooth)),
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: IconButton(
                 onPressed: () {},
-                icon: Icon(
+                icon: const Icon(
                   Icons.exit_to_app_outlined,
-                  color: Colors.pink.shade500,
+                  color: Colors.black38,
                   size: 29,
                 )),
           )
@@ -73,8 +72,8 @@ class _homePageState extends State<homePage> {
               height: _alto * .25,
               child: DrawerHeader(
                 // decoration: BoxDecoration(color: Colors.pink[500]),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(251, 80, 199, 214),
+                decoration: BoxDecoration(
+                  color: (Colors.pink[400]),
                 ),
                 child: Column(
                   children: [
@@ -158,7 +157,7 @@ class _homePageState extends State<homePage> {
               height: 10,
             ),
             ListTile(
-              title: const Text('Rpt. ventas hoy'),
+              title: const Text('Rpt. de ordenes'),
               leading: const Icon(Icons.content_paste_search_rounded),
               trailing: const Icon(Icons.arrow_forward_ios),
               iconColor: Colors.teal[400],
@@ -167,11 +166,26 @@ class _homePageState extends State<homePage> {
               },
             ),
             ListTile(
-              title: const Text('Rpt. proformas'),
+              title:
+                  const Text('Rpt. productos mas vendidos con util. promedio'),
               leading: const Icon(Icons.content_paste_search_rounded),
               trailing: const Icon(Icons.arrow_forward_ios),
               iconColor: Colors.teal[400],
-              onTap: () => Navigator.pop(context),
+              onTap: () => Navigator.pushNamed(context, "rpt_prodmasvendidos"),
+            ),
+            ListTile(
+              title: const Text('Rpt. productos con porcentaje de utilidad'),
+              leading: const Icon(Icons.content_paste_search_rounded),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              iconColor: Colors.teal[400],
+              onTap: () => Navigator.pushNamed(context, "rpt_produtilidad"),
+            ),
+            ListTile(
+              title: const Text('Rpt. productos con bajo stock'),
+              leading: const Icon(Icons.content_paste_search_rounded),
+              trailing: const Icon(Icons.arrow_forward_ios),
+              iconColor: Colors.teal[400],
+              onTap: () => Navigator.pushNamed(context, "rpt_prodmin"),
             ),
             ListTile(
               title: const Text('Rpt. nuevos ingresos'),
@@ -181,8 +195,8 @@ class _homePageState extends State<homePage> {
               onTap: () => Navigator.pop(context),
             ),
             ListTile(
-              title: const Text('Rpt. productos'),
-              leading: const Icon(Icons.add_business_rounded),
+              title: const Text('Enviar R. hacia correo'),
+              leading: const Icon(Icons.email),
               trailing: const Icon(Icons.arrow_forward_ios),
               iconColor: Colors.teal[400],
               onTap: () async {
@@ -227,12 +241,12 @@ class _homePageState extends State<homePage> {
             seleccion(
               ancho: _ancho * .9,
               alto: _alto * .1,
-              primaryColor: Colors.teal.shade100,
-              secondaryColor: Colors.teal,
-              shadowColor: Colors.teal.shade900,
+              primaryColor: Colors.pink.shade100,
+              secondaryColor: Colors.pink,
+              shadowColor: Colors.pink.shade900,
               image: 'assets/logo_.png',
               title: 'Ordenes',
-              subtit: 'Agregar o modificar ordenes.',
+              subtit: 'Registra e imprime una n. orden.',
               imagewidth: 44,
               ruta: 'ordenes',
             ),
@@ -304,19 +318,34 @@ class seleccion extends StatelessWidget {
         // crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ListTile(
-            title: Text(
-              title,
-              style: const TextStyle(
-                  fontSize: 23,
+            title: Center(
+              child: Text(
+                title,
+                style: const TextStyle(
+                    fontSize: 23,
+                    color: Colors.black45,
+                    fontWeight: FontWeight.w300),
+              ),
+            ),
+            // leading: Image(image: AssetImage(image)),
+            leading: const Icon(
+              Icons.add_business_rounded,
+              size: 50,
+              color: Colors.white70,
+            ),
+            subtitle: Center(
+              child: Text(
+                subtit,
+                style: const TextStyle(
                   color: Colors.black54,
-                  fontWeight: FontWeight.w300),
+                  fontWeight: FontWeight.w300,
+                ),
+              ),
             ),
-            leading: Image(image: AssetImage(image)),
-            subtitle: Text(
-              subtit,
-              style: const TextStyle(fontWeight: FontWeight.w300),
+            trailing: const Icon(
+              Icons.chevron_right_rounded,
+              color: Colors.white70,
             ),
-            trailing: const Icon(Icons.chevron_right_rounded),
             onTap: () {
               if (ruta == "ordenes") {
                 final prov =

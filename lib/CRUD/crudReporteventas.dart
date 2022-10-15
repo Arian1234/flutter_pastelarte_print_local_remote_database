@@ -10,7 +10,6 @@ class DbCrudReporteVentas {
 
   Future<List<Reporteventa>> GetReporteVenta(
       String fechai, String fechaf) async {
-    log("reporte");
     final db = await DBProvider.db.getdatabase();
     // final res = await db.query('CLIENTES',
     //     where: 'nombclie like ?', whereArgs: [busqueda.toString()]);

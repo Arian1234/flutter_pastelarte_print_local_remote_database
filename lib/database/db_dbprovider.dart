@@ -27,7 +27,7 @@ class DBProvider {
   Future<Database> initdatabase() async {
     var dbpath = await getDatabasesPath();
     log("ruta: " + dbpath);
-    _parch = join(dbpath, 'dbpastelsaqqqqqqqq.db');
+    _parch = join(dbpath, 'dbpastelsaqqqqqqqqq.db');
 //
     // final dataDir = Directory(dbpath);
 
@@ -44,7 +44,7 @@ class DBProvider {
 
     return await openDatabase(
       _parch,
-      version: 13,
+      version: 14,
       onOpen: (db) {},
       onCreate: (db, version) async {
         await db.execute(categorias);
@@ -52,7 +52,8 @@ class DBProvider {
         await db.execute(productos);
         await db.execute(orden);
         await db.execute(detaorden);
-        await db.execute(inserts);
+        await db.execute(inserts_categ);
+        await db.execute(inserts_clie);
       },
     );
   }
@@ -113,8 +114,10 @@ CREATE TABLE DETAORDEN(
 );
 
 ''';
-  String inserts = '''
+  final String inserts_categ = '''
 INSERT INTO CATEGORIAS(idcateg,nombcateg) VALUES(null,"VARIOS"); 
+''';
+  final String inserts_clie = '''
 INSERT INTO CLIENTES(idclie,nombclie,docclie,dirclie,celclie) VALUES(null,"VARIOS","0000","---","0000");
 ''';
 }

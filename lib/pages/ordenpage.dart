@@ -196,8 +196,8 @@ class _ordenPageState extends State<ordenPage> {
                                                             .toDouble(),
                                                         prov.prod[i].ventaprod!
                                                             .toDouble(),
-                                                        prov.prod[i].cantprod!
-                                                            .toDouble());
+                                                        double.parse(listado[i]
+                                                            .toString()));
                                               }
                                             }
                                             TestPrint().sample(

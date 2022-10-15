@@ -1,13 +1,20 @@
 import 'package:firebase_orders_flutter/controllers/controllerCategorias.dart';
 import 'package:firebase_orders_flutter/controllers/controllerClientes.dart';
+import 'package:firebase_orders_flutter/controllers/controllerDetalleReporteVentas.dart';
 import 'package:firebase_orders_flutter/controllers/controllerDetaorden.dart';
 import 'package:firebase_orders_flutter/controllers/controllerOrdenes.dart';
 import 'package:firebase_orders_flutter/controllers/controllerProductos.dart';
+import 'package:firebase_orders_flutter/controllers/controllerReportProdPorcenUtil.dart';
+import 'package:firebase_orders_flutter/controllers/controllerReporteProdMasVendidos.dart';
+import 'package:firebase_orders_flutter/controllers/controllerReporteProdMin.dart';
 import 'package:firebase_orders_flutter/controllers/controllerReporteVentas.dart';
 import 'package:firebase_orders_flutter/pages/categoriasPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/clientesPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/homepage.dart';
 import 'package:firebase_orders_flutter/pages/productosPage_insert.dart';
+import 'package:firebase_orders_flutter/pages/reports/prodMin.dart';
+import 'package:firebase_orders_flutter/pages/reports/prodsmasVendidos.dart';
+import 'package:firebase_orders_flutter/pages/reports/prodsMayorUtilPage.dart';
 import 'package:firebase_orders_flutter/pages/reports/ventashoyPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,6 +51,13 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => ProviderDetaorden()),
         ChangeNotifierProvider(create: (context) => ProviderClientes()),
         ChangeNotifierProvider(create: (context) => ProviderReporteVenta()),
+        ChangeNotifierProvider(create: (context) => ProviderReporteProdMin()),
+        ChangeNotifierProvider(
+            create: (context) => ProviderReporteProdMasVendidos()),
+        ChangeNotifierProvider(
+            create: (context) => ProviderReporteProdPorcenUtil()),
+        ChangeNotifierProvider(
+            create: (context) => ProviderDetalleReporteVenta()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -56,10 +70,14 @@ class _MyAppState extends State<MyApp> {
           'clientes_insert': (context) => const clientesPage_insert(),
           //Reportes
           'rpt_ventashoy': (context) => const ventashoyPage(),
+          'rpt_produtilidad': (context) => const reporteProdPorcUtilPage(),
+          'rpt_prodmin': (context) => const reporteProdMinPage(),
+          'rpt_prodmasvendidos': (context) =>
+              const reporteProdMasVendidosPage(),
         },
         theme: ThemeData(
             colorScheme: ColorScheme.fromSwatch().copyWith(
-          primary: const Color.fromARGB(251, 80, 199, 214),
+          primary: Colors.pink[400],
           secondary: Colors.pink.shade300,
         )),
       ),

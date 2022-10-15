@@ -705,11 +705,6 @@ class _productosPage_insertState extends State<productosPage_insert> {
           elevation: 1,
           title: Text("$estado producto"),
           actions: [
-            IconButton(
-                onPressed: () {
-                  log(_valordropdownbutton);
-                },
-                icon: Icon(Icons.abc)),
             Padding(
               padding: const EdgeInsets.only(right: 15),
               child: widget.id != null
