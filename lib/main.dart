@@ -4,6 +4,7 @@ import 'package:firebase_orders_flutter/controllers/controllerDetalleReporteVent
 import 'package:firebase_orders_flutter/controllers/controllerDetaorden.dart';
 import 'package:firebase_orders_flutter/controllers/controllerOrdenes.dart';
 import 'package:firebase_orders_flutter/controllers/controllerProductos.dart';
+import 'package:firebase_orders_flutter/controllers/controllerProveedores.dart';
 import 'package:firebase_orders_flutter/controllers/controllerReportProdPorcenUtil.dart';
 import 'package:firebase_orders_flutter/controllers/controllerReporteProdMasVendidos.dart';
 import 'package:firebase_orders_flutter/controllers/controllerReporteProdMin.dart';
@@ -12,6 +13,7 @@ import 'package:firebase_orders_flutter/pages/categoriasPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/clientesPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/homepage.dart';
 import 'package:firebase_orders_flutter/pages/productosPage_insert.dart';
+import 'package:firebase_orders_flutter/pages/proveedoresPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/reports/prodMin.dart';
 import 'package:firebase_orders_flutter/pages/reports/prodsmasVendidos.dart';
 import 'package:firebase_orders_flutter/pages/reports/prodsMayorUtilPage.dart';
@@ -52,6 +54,7 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => ProviderClientes()),
         ChangeNotifierProvider(create: (context) => ProviderReporteVenta()),
         ChangeNotifierProvider(create: (context) => ProviderReporteProdMin()),
+        ChangeNotifierProvider(create: (context) => ProviderProveedores()),
         ChangeNotifierProvider(
             create: (context) => ProviderReporteProdMasVendidos()),
         ChangeNotifierProvider(
@@ -68,6 +71,7 @@ class _MyAppState extends State<MyApp> {
           'productos_insert': (context) => const productosPage_insert(),
           'categorias_insert': (context) => const categoriasPage_insert(),
           'clientes_insert': (context) => const clientesPage_insert(),
+          'proveedore_insert': (context) => const proveedoresPage_insert(),
           //Reportes
           'rpt_ventashoy': (context) => const ventashoyPage(),
           'rpt_produtilidad': (context) => const reporteProdPorcUtilPage(),

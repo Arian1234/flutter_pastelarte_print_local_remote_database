@@ -21,7 +21,6 @@ class ProviderDetaorden extends ChangeNotifier {
     model.iddetaord = id;
     prod.add(model);
     log(id.toString());
-    
     //  print("AQUI : " + prod[0].toString());
 
     notifyListeners();

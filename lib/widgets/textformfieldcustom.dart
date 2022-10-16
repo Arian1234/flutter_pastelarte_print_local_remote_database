@@ -139,6 +139,10 @@ class _textformfieldsintitleState extends State<textformfieldsintitle> {
                       widget._prov
                           .ObtenerClientes('%${widget._controllerfield.text}%');
                       break;
+                    case "proveedores":
+                      widget._prov.ObtenerProveedores(
+                          '%${widget._controllerfield.text}%');
+                      break;
 
                     default:
                   }

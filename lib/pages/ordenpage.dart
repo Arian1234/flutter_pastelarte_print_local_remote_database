@@ -207,6 +207,21 @@ class _ordenPageState extends State<ordenPage> {
                                                 total.toString(),
                                                 unix);
                                             log("total : $total");
+
+                                            //CLEAR
+                                            prov.ObtenerProducto('%%');
+                                            Navigator.pop(context);
+                                            iniciado = 1;
+                                            total = 0.toDecimal();
+                                            pcosto = 0.toDecimal();
+                                            setState(() {
+                                              cant = 0;
+                                              listado.clear();
+                                            });
+
+                                            log("Tamanio del listado " +
+                                                listado.length.toString());
+
                                             ScaffoldMessenger.of(context)
                                                 .showSnackBar(
                                               SnackBar(

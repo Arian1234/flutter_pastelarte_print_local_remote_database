@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../CRUD/crudClientes.dart';
 import '../models/modelClientes.dart';
 
-
 class ProviderClientes extends ChangeNotifier {
   List<Clientes> clie = [];
 
@@ -23,7 +22,14 @@ class ProviderClientes extends ChangeNotifier {
 
   ActualizarCLientes(
       int cod, String nomb, String doc, String dir, String cel) async {
+    final model = Clientes(
+        idclie: cod, nombclie: nomb, docclie: doc, dirclie: dir, celclie: cel);
     await DbCrudClientes.dbp.ActualizarClientes(cod, nomb, doc, dir, cel);
+
+    int index = clie.indexWhere((element) => element.idclie == cod);
+    log(index.toString());
+    clie.removeAt(index);
+    clie.insert(index, model);
     notifyListeners();
   }
 

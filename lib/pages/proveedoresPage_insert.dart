@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:firebase_orders_flutter/controllers/controllerClientes.dart';
+import 'package:firebase_orders_flutter/controllers/controllerProveedores.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
@@ -9,28 +9,28 @@ import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 import '../widgets/textformfieldcustom.dart';
 
-class clientesPage_insert extends StatefulWidget {
-  const clientesPage_insert(
-      {Key? key, this.id, this.nomb, this.doc, this.dir, this.cel})
+class proveedoresPage_insert extends StatefulWidget {
+  const proveedoresPage_insert(
+      {Key? key, this.id, this.nomb, this.ruc, this.dir, this.cel})
       : super(key: key);
   final String? id;
   final String? nomb;
-  final String? doc;
+  final String? ruc;
   final String? dir;
   final String? cel;
 
   @override
-  State<clientesPage_insert> createState() => _clientesPage_insertState();
+  State<proveedoresPage_insert> createState() => _proveedoresPage_insertState();
 }
 
-class _clientesPage_insertState extends State<clientesPage_insert> {
+class _proveedoresPage_insertState extends State<proveedoresPage_insert> {
   List<XFile>? _imageFileList;
   final _formKey = GlobalKey<FormState>();
   final TextEditingController contr = TextEditingController();
   final valores = [];
   final _controlleridclie = TextEditingController();
   final _controllernombclie = TextEditingController();
-  final _controllerdoc = TextEditingController();
+  final _controllerruc = TextEditingController();
   final _controllerdir = TextEditingController();
   final _controllercel = TextEditingController();
   final _globalformkey = GlobalKey<FormState>();
@@ -55,7 +55,7 @@ class _clientesPage_insertState extends State<clientesPage_insert> {
       _controllernombclie.text = widget.nomb.toString();
       _controllerdir.text = widget.dir.toString();
       _controllercel.text = widget.cel.toString();
-      _controllerdoc.text = widget.doc.toString();
+      _controllerruc.text = widget.ruc.toString();
       // _switchDespacho = widget.despinst.toString() == '1' ? true : false;
       setState(() {
         estado = 'Actualizar';
@@ -352,18 +352,18 @@ class _clientesPage_insertState extends State<clientesPage_insert> {
                           // hinttext: '',
                           textinputype: TextInputType.text,
                           habilitado: true,
-                          label: 'Nombre del cliente',
+                          label: 'Nombre del proveedor',
                         ),
                         const SizedBox(
                           height: 10,
                         ),
                         textformfield(
                           ancho: _ancho * .9,
-                          controllercategoria: _controllerdoc,
+                          controllercategoria: _controllerruc,
                           // hinttext: 'descripcion',
                           textinputype: TextInputType.number,
                           habilitado: true,
-                          label: 'Documento',
+                          label: 'RUC',
                         ),
                         const SizedBox(
                           height: 10,
@@ -376,7 +376,7 @@ class _clientesPage_insertState extends State<clientesPage_insert> {
                               // hinttext: 'id',
                               textinputype: TextInputType.text,
                               habilitado: true,
-                              label: 'Dir. del cliente',
+                              label: 'Dir. del proveedor',
                             ),
                             SizedBox(
                               width: _ancho * .02,
@@ -453,13 +453,13 @@ class _clientesPage_insertState extends State<clientesPage_insert> {
 
   @override
   Widget build(BuildContext context) {
-    final prov = Provider.of<ProviderClientes>(context, listen: true);
+    final prov = Provider.of<ProviderProveedores>(context, listen: true);
 
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.pink[400],
           elevation: 1,
-          title: Text("$estado cliente"),
+          title: Text("$estado proveedor"),
           actions: [
             Padding(
               padding: const EdgeInsets.only(right: 15),
@@ -484,10 +484,10 @@ class _clientesPage_insertState extends State<clientesPage_insert> {
                               _controllernombclie.value.text.toString();
                           String dir = _controllerdir.value.text.toString();
                           String cel = _controllercel.value.text.toString();
-                          String doc = _controllerdoc.value.text.toString();
+                          String ruc = _controllerruc.value.text.toString();
 
-                          prov.ActualizarCLientes(
-                              int.parse(id), nombre, doc, dir, cel);
+                          prov.ActualizarProveedor(
+                              int.parse(id), nombre, ruc, dir, cel);
 
                           Timer(const Duration(milliseconds: 1900), () {
                             Navigator.pop(context);
@@ -529,9 +529,9 @@ class _clientesPage_insertState extends State<clientesPage_insert> {
                               _controllernombclie.value.text.toString();
                           String dir = _controllerdir.value.text.toString();
                           String cel = _controllercel.value.text.toString();
-                          String doc = _controllerdoc.value.text.toString();
+                          String ruc = _controllerruc.value.text.toString();
 
-                          prov.AgregarCliente(nombre, doc, dir, cel);
+                          prov.AgregarProveedor(nombre, ruc, dir, cel);
                           Timer(const Duration(milliseconds: 1900), () {
                             Navigator.pop(context);
                             ScaffoldMessenger.of(context).showSnackBar(

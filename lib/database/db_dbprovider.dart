@@ -26,8 +26,8 @@ class DBProvider {
 
   Future<Database> initdatabase() async {
     var dbpath = await getDatabasesPath();
-    log("ruta: " + dbpath);
-    _parch = join(dbpath, 'dbpastelsaqqqqqqqqq.db');
+    log("ruta: $dbpath");
+    _parch = join(dbpath, 'dbchatarrita.db');
 //
     // final dataDir = Directory(dbpath);
 
@@ -44,7 +44,7 @@ class DBProvider {
 
     return await openDatabase(
       _parch,
-      version: 14,
+      version: 1,
       onOpen: (db) {},
       onCreate: (db, version) async {
         await db.execute(categorias);
@@ -52,8 +52,13 @@ class DBProvider {
         await db.execute(productos);
         await db.execute(orden);
         await db.execute(detaorden);
+        await db.execute(proveedores);
+        await db.execute(compras);
+        await db.execute(detacompra);
+        await db.execute(trigger_detalleordenes);
         await db.execute(inserts_categ);
         await db.execute(inserts_clie);
+        await db.execute(inserts_provee);
       },
     );
   }
@@ -114,10 +119,54 @@ CREATE TABLE DETAORDEN(
 );
 
 ''';
+  final String proveedores = '''
+CREATE TABLE PROVEEDORES(
+  idprovee INTEGER PRIMARY KEY,
+  nombprovee TEXT UNIQUE,
+  rucprovee TEXT,
+  dirprovee TEXT,
+  celprovee TEXT
+);
+''';
+
+  final String compras = '''
+CREATE TABLE COMPRAS(
+  idcomp INTEGER PRIMARY KEY,
+  nrodocumento TEXT,
+  idprovee INTEGER,
+  fecharegistrocomp DATETIME,
+  fechadoc DATETIME,
+  totalcomp DECIMAL(7,2),
+  amortizocomp DECIMAL(7,2),
+  anotacomp TEXT,
+  estcomp BOOLEAN NOT NULL CHECK (estcomp IN(0,1)));
+''';
+
+  final String detacompra = '''
+CREATE TABLE DETACOMPRA(
+  iddetacomp INTEGER PRIMARY KEY,
+  idcomp INTEGER,
+  idprod INTEGER,
+  preciooldcomp DECIMAL(7,2),
+  preciocprod DECIMAL(7,2),
+  preciovprod DECIMAL(7,2),
+  cantprod DECIMAL(7,2)
+);''';
+
   final String inserts_categ = '''
 INSERT INTO CATEGORIAS(idcateg,nombcateg) VALUES(null,"VARIOS"); 
 ''';
   final String inserts_clie = '''
 INSERT INTO CLIENTES(idclie,nombclie,docclie,dirclie,celclie) VALUES(null,"VARIOS","0000","---","0000");
+''';
+  final String inserts_provee = '''
+INSERT INTO PROVEEDORES(idprovee,nombprovee,rucprovee,dirprovee,celprovee) VALUES(null,"ELABORACION INTERNA","00000000","---","000 000 000"); 
+''';
+
+  final String trigger_detalleordenes = '''
+CREATE TRIGGER aft_insert_orders AFTER INSERT ON DETAORDEN
+BEGIN
+UPDATE PRODUCTOS SET cantprod=cantprod-NEW.cantprod WHERE PRODUCTOS.idprod=NEW.idprod;
+END;
 ''';
 }
