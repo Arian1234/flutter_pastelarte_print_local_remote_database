@@ -1,34 +1,28 @@
 import 'dart:developer';
-import 'dart:io';
-import 'package:firebase_orders_flutter/controllers/controllerDetaorden.dart';
-import 'package:firebase_orders_flutter/controllers/controllerOrdenes.dart';
-import 'package:firebase_orders_flutter/pages/impresora/testprint.dart';
+import 'package:firebase_orders_flutter/controllers/controllerCompras.dart';
+import 'package:firebase_orders_flutter/controllers/controllerDetaCompra.dart';
+import 'package:firebase_orders_flutter/models/modelCompras.dart';
 import 'package:firebase_orders_flutter/widgets/textformfieldcustom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:screenshot/screenshot.dart';
 import '../controllers/controllerProductos.dart';
 import 'package:decimal/decimal.dart';
-import 'package:share_plus/share_plus.dart';
 
-FlutterBlue flutterBlue = FlutterBlue.instance;
-
-class ordenPage extends StatefulWidget {
+class comprasPage extends StatefulWidget {
   final ProviderProductos provforaneo;
-  const ordenPage({Key? key, required this.provforaneo}) : super(key: key);
+  const comprasPage({Key? key, required this.provforaneo}) : super(key: key);
 
   @override
-  State<ordenPage> createState() => _ordenPageState();
+  State<comprasPage> createState() => _comprasPageState();
 }
 
-class _ordenPageState extends State<ordenPage> {
-  ScreenshotController screenshotController = ScreenshotController();
+class _comprasPageState extends State<comprasPage> {
   var listado = [];
   var iniciado = 1;
   int cant = 0;
   List<ScanResult>? scanResult;
+  List<Compras> com = [];
 
   @override
   void initState() {
@@ -42,17 +36,18 @@ class _ordenPageState extends State<ordenPage> {
     double _alto = MediaQuery.of(context).size.height;
     final prov = Provider.of<ProviderProductos>(context, listen: true);
     final _controllercategoria = TextEditingController();
-    final provordenes = Provider.of<ProviderOrdenes>(context, listen: false);
-    final provdetaordenes =
-        Provider.of<ProviderDetaorden>(context, listen: false);
+    final provcompras = Provider.of<ProviderCompras>(context, listen: false);
+    final provdetacompras =
+        Provider.of<ProviderDetaCompra>(context, listen: false);
     Decimal total = 0.toDecimal();
     Decimal pcosto = 0.toDecimal();
-
+    // com.add(Compras());
+    // ProviderCompras().AgregarCompra(com[].idcomp, idprovee, fecharegist, fechadocu, total, amortizo, anota, esta)
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.pink[400],
+        backgroundColor: Colors.blue[400],
         centerTitle: true,
-        title: Text('Productos: $cant'),
+        title: Text('Compras: $cant'),
         elevation: 1,
         actions: [
           Padding(
@@ -67,7 +62,7 @@ class _ordenPageState extends State<ordenPage> {
                         log("acabo de entrar al builder");
                         total = 0.toDecimal();
                         pcosto = 0.toDecimal();
-                        //  prov.ObtenerProducto('%%');
+
                         // ignore: prefer_interpolation_to_compose_strings
                         log("items.length:  listado " +
                             listado.length.toString());
@@ -90,303 +85,258 @@ class _ordenPageState extends State<ordenPage> {
                             width: _ancho * .9,
                             height: _alto * .6,
                             color: Colors.black.withOpacity(.15),
-                            child: Screenshot(
-                              controller: screenshotController,
-                              child: AlertDialog(
-                                elevation: 1,
-                                actions: [
-                                  Container(
-                                    width: _ancho * .9,
-                                    height: _alto * .1,
-                                    color: Colors.pink[400],
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            Navigator.pop(context);
-                                            total = 0.toDecimal();
-                                            pcosto = 0.toDecimal();
-                                          },
-                                          child: buttonmodal(
-                                            ancho: _ancho * .20,
-                                            alto: _alto * .06,
-                                            title: "Volver",
-                                            icon: Icons.arrow_back_ios,
-                                            primary: Colors.red.withOpacity(.8),
-                                            second: Colors.red.withOpacity(.9),
-                                            shadow: Colors.black26,
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () async {
-                                            await screenshotController
-                                                .capture(
-                                                    delay: const Duration(
-                                                        milliseconds: 10))
-                                                .then((image) async {
-                                              if (image != null) {
-                                                final directory =
-                                                    await getApplicationDocumentsDirectory();
-                                                final imagePath = await File(
-                                                        '${directory.path}/image.png')
-                                                    .create();
-                                                await imagePath
-                                                    .writeAsBytes(image);
-
-                                                /// Share Plugin
-                                                await Share.shareFiles(
-                                                    [imagePath.path]);
-                                              }
-                                            });
-                                          },
-                                          child: buttonmodal(
-                                            ancho: _ancho * .20,
-                                            alto: _alto * .06,
-                                            title: "Compartir",
-                                            icon: Icons.share,
-                                            primary:
-                                                Colors.green.withOpacity(.8),
-                                            second:
-                                                Colors.green.withOpacity(.9),
-                                            shadow: Colors.black26,
-                                          ),
-                                        ),
-                                        GestureDetector(
-                                          onTap: () async {
-                                            final now = DateTime.now();
-                                            // String fecha =
-                                            //     ("${now.day}/${now.month}/${now.year}");
-                                            String day =
-                                                "0" + now.day.toString();
-                                            String days = (day.substring(
-                                                day.length - 2, day.length));
-                                            String fecha =
-                                                ("${now.year}-${now.month}-${days}");
-
-                                            String unix = DateTime.now()
-                                                .toUtc()
-                                                .millisecondsSinceEpoch
-                                                .toString();
-
-                                            final idorden =
-                                                await provordenes.AgregarOrden(
-                                                    unix,
-                                                    1,
-                                                    fecha,
-                                                    fecha,
-                                                    "0",
-                                                    total.toDouble(),
-                                                    total.toDouble(),
-                                                    (total - pcosto).toDouble(),
-                                                    "---",
-                                                    0);
-
-                                            for (var i = 0;
-                                                i < listado.length;
-                                                i++) {
-                                              if (listado[i] > 0) {
-                                                provdetaordenes
-                                                    .AgregarDetaorden(
-                                                        idorden,
-                                                        (prov.prod[i].idprod)!
-                                                            .toInt(),
-                                                        prov.prod[i].precioprod!
-                                                            .toDouble(),
-                                                        prov.prod[i].ventaprod!
-                                                            .toDouble(),
-                                                        double.parse(listado[i]
-                                                            .toString()));
-                                              }
-                                            }
-                                            TestPrint().sample(
-                                                listado,
-                                                prov,
-                                                listado.length,
-                                                total.toString(),
-                                                unix);
-                                            log("total : $total");
-
-                                            //CLEAR
-                                            prov.ObtenerProducto('%%');
-                                            Navigator.pop(context);
-                                            iniciado = 1;
-                                            total = 0.toDecimal();
-                                            pcosto = 0.toDecimal();
-                                            setState(() {
-                                              cant = 0;
-                                              listado.clear();
-                                            });
-
-                                            log("Tamanio del listado " +
-                                                listado.length.toString());
-
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                  content: Text(
-                                                      "Nota de venta: $unix guardada, imprimiendo.")),
-                                            );
-                                          },
-                                          child: buttonmodal(
-                                            ancho: _ancho * .20,
-                                            alto: _alto * .06,
-                                            title: "Guardar",
-                                            icon: Icons.save_as,
-                                            primary:
-                                                Colors.blue.withOpacity(.7),
-                                            second: Colors.blue.withOpacity(.9),
-                                            shadow: Colors.black26,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                                title: Container(
+                            child: AlertDialog(
+                              elevation: 1,
+                              actions: [
+                                Container(
                                   width: _ancho * .9,
                                   height: _alto * .1,
                                   color: Colors.pink[400],
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
                                     children: [
-                                      const Text(
-                                        'Carrito: ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            color: Colors.white,
-                                            fontSize: 22),
+                                      GestureDetector(
+                                        onTap: () {
+                                          Navigator.pop(context);
+                                          total = 0.toDecimal();
+                                          pcosto = 0.toDecimal();
+                                        },
+                                        child: buttonmodal(
+                                          ancho: _ancho * .20,
+                                          alto: _alto * .06,
+                                          title: "Volver",
+                                          icon: Icons.arrow_back_ios,
+                                          primary: Colors.red.withOpacity(.8),
+                                          second: Colors.red.withOpacity(.9),
+                                          shadow: Colors.black26,
+                                        ),
                                       ),
-                                      Text(
-                                        ' $total soles ${total - pcosto}',
-                                        // ' $total soles ',
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontStyle: FontStyle.italic,
-                                            color: Colors.white,
-                                            fontSize: 18),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                content: SizedBox(
-                                  width: _ancho * .9,
-                                  height: _alto * .6,
-                                  child: Column(
-                                    children: [
-                                      SizedBox(
-                                        width: _ancho * .9,
-                                        height: _alto * .60,
-                                        child: Column(
-                                          children: [
-                                            SizedBox(
-                                              width: _ancho * .9,
-                                              height: _alto * .03,
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  SizedBox(
-                                                      width: _ancho * .15,
-                                                      child: const Text(
-                                                        "CANT",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  SizedBox(
-                                                      width: _ancho * .35,
-                                                      child: const Text(
-                                                        "PRODUCTO/P.U.",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      )),
-                                                  Container(
-                                                      width: _ancho * .15,
-                                                      child: const Text(
-                                                        "TOTAL",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ))
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: _ancho * .9,
-                                              height: _alto * .57,
-                                              child: ListView.builder(
-                                                itemCount: listado.length,
-                                                itemBuilder:
-                                                    (BuildContext context,
-                                                        int index) {
-                                                  if (listado[index] > 0) {
-                                                    var sd = Decimal.parse(
-                                                            listado[index]
-                                                                .toString()) *
-                                                        Decimal.parse(prov
-                                                            .prod[index]
-                                                            .ventaprod
-                                                            .toString());
+                                      GestureDetector(
+                                        onTap: () async {
+                                          final now = DateTime.now();
+                                          // String fecha =
+                                          //     ("${now.day}/${now.month}/${now.year}");
+                                          String day = "0" + now.day.toString();
+                                          String days = (day.substring(
+                                              day.length - 2, day.length));
+                                          String fecha =
+                                              ("${now.year}-${now.month}-${days}");
 
-                                                    return Card(
-                                                      color: prov.prod[index]
-                                                                  .despachorecep ==
-                                                              1
-                                                          ? Colors.white
-                                                          : Colors.yellow[700],
-                                                      child: ListTile(
-                                                        title: Text(
-                                                          prov.prod[index]
-                                                              .nombprod
-                                                              .toString(),
-                                                          style: const TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w500),
-                                                        ),
-                                                        subtitle: Text(
-                                                          prov.prod[index]
-                                                              .ventaprod
-                                                              .toString(),
-                                                        ),
-                                                        leading: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .center,
-                                                          children: [
-                                                            Text(
-                                                                listado[index]
-                                                                    .toString(),
-                                                                style:
-                                                                    const TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                )),
-                                                          ],
-                                                        ),
-                                                        trailing:
-                                                            Text(sd.toString()),
-                                                      ),
-                                                    );
-                                                  }
-                                                  return const SizedBox(
-                                                    height: 1,
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ],
+                                          String unix = DateTime.now()
+                                              .toUtc()
+                                              .millisecondsSinceEpoch
+                                              .toString();
+
+                                          final idcompra =
+                                              await provcompras.AgregarCompra(
+                                                  unix,
+                                                  1,
+                                                  fecha,
+                                                  fecha,
+                                                  total.toDouble(),
+                                                  total.toDouble(),
+                                                  "---",
+                                                  0);
+
+                                          for (var i = 0;
+                                              i < listado.length;
+                                              i++) {
+                                            if (listado[i] > 0) {
+                                              provdetacompras.AgregarDetaCompra(
+                                                  idcompra,
+                                                  (prov.prod[i].idprod)!
+                                                      .toInt(),
+                                                  prov.prod[i].precioprod!
+                                                      .toDouble(),
+                                                  prov.prod[i].precioprod!
+                                                      .toDouble(),
+                                                  prov.prod[i].ventaprod!
+                                                      .toDouble(),
+                                                  double.parse(
+                                                      listado[i].toString()));
+                                            }
+                                          }
+                                          // TestPrint().sample(
+                                          //     listado,
+                                          //     prov,
+                                          //     listado.length,
+                                          //     total.toString(),
+                                          //     unix);
+                                          log("total : $total");
+
+                                          //CLEAR
+                                          prov.ObtenerProducto('%%');
+                                          Navigator.pop(context);
+                                          iniciado = 1;
+                                          total = 0.toDecimal();
+                                          pcosto = 0.toDecimal();
+                                          setState(() {
+                                            cant = 0;
+                                            listado.clear();
+                                          });
+
+                                          log("Tamanio del listado " +
+                                              listado.length.toString());
+
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                                content: Text(
+                                                    "Nota de compra: $unix guardada, imprimiendo.")),
+                                          );
+                                        },
+                                        child: buttonmodal(
+                                          ancho: _ancho * .20,
+                                          alto: _alto * .06,
+                                          title: "Guardar",
+                                          icon: Icons.save_as,
+                                          primary: Colors.blue.withOpacity(.7),
+                                          second: Colors.blue.withOpacity(.9),
+                                          shadow: Colors.black26,
                                         ),
                                       ),
                                     ],
                                   ),
+                                ),
+                              ],
+                              title: Container(
+                                width: _ancho * .9,
+                                height: _alto * .1,
+                                color: Colors.pink[400],
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      'Carrito: ',
+                                      style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white,
+                                          fontSize: 22),
+                                    ),
+                                    Text(
+                                      ' $total soles ${total - pcosto}',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontStyle: FontStyle.italic,
+                                          color: Colors.white,
+                                          fontSize: 18),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              content: SizedBox(
+                                width: _ancho * .9,
+                                height: _alto * .6,
+                                child: Column(
+                                  children: [
+                                    SizedBox(
+                                      width: _ancho * .9,
+                                      height: _alto * .60,
+                                      child: Column(
+                                        children: [
+                                          SizedBox(
+                                            width: _ancho * .9,
+                                            height: _alto * .03,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.center,
+                                              children: [
+                                                SizedBox(
+                                                    width: _ancho * .15,
+                                                    child: const Text(
+                                                      "CANT",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )),
+                                                SizedBox(
+                                                    width: _ancho * .35,
+                                                    child: const Text(
+                                                      "PRODUCTO/P.U.",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    )),
+                                                Container(
+                                                    width: _ancho * .15,
+                                                    child: const Text(
+                                                      "TOTAL",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold),
+                                                    ))
+                                              ],
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: _ancho * .9,
+                                            height: _alto * .57,
+                                            child: ListView.builder(
+                                              itemCount: listado.length,
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                if (listado[index] > 0) {
+                                                  var sd = Decimal.parse(
+                                                          listado[index]
+                                                              .toString()) *
+                                                      Decimal.parse(prov
+                                                          .prod[index].ventaprod
+                                                          .toString());
+
+                                                  return Card(
+                                                    color: prov.prod[index]
+                                                                .despachorecep ==
+                                                            1
+                                                        ? Colors.white
+                                                        : Colors.yellow[700],
+                                                    child: ListTile(
+                                                      title: Text(
+                                                        prov.prod[index]
+                                                            .nombprod
+                                                            .toString(),
+                                                        style: const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      subtitle: Text(
+                                                        prov.prod[index]
+                                                            .ventaprod
+                                                            .toString(),
+                                                      ),
+                                                      leading: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Text(
+                                                              listado[index]
+                                                                  .toString(),
+                                                              style:
+                                                                  const TextStyle(
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              )),
+                                                        ],
+                                                      ),
+                                                      trailing:
+                                                          Text(sd.toString()),
+                                                    ),
+                                                  );
+                                                }
+                                                return const SizedBox(
+                                                  height: 1,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),

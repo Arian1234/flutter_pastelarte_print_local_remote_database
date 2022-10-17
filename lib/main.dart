@@ -1,5 +1,7 @@
 import 'package:firebase_orders_flutter/controllers/controllerCategorias.dart';
 import 'package:firebase_orders_flutter/controllers/controllerClientes.dart';
+import 'package:firebase_orders_flutter/controllers/controllerCompras.dart';
+import 'package:firebase_orders_flutter/controllers/controllerDetaCompra.dart';
 import 'package:firebase_orders_flutter/controllers/controllerDetalleReporteVentas.dart';
 import 'package:firebase_orders_flutter/controllers/controllerDetaorden.dart';
 import 'package:firebase_orders_flutter/controllers/controllerOrdenes.dart';
@@ -52,9 +54,11 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => ProviderCategorias()),
         ChangeNotifierProvider(create: (context) => ProviderDetaorden()),
         ChangeNotifierProvider(create: (context) => ProviderClientes()),
+        ChangeNotifierProvider(create: (context) => ProviderProveedores()),
+        ChangeNotifierProvider(create: (context) => ProviderCompras()),
+        ChangeNotifierProvider(create: (context) => ProviderDetaCompra()),
         ChangeNotifierProvider(create: (context) => ProviderReporteVenta()),
         ChangeNotifierProvider(create: (context) => ProviderReporteProdMin()),
-        ChangeNotifierProvider(create: (context) => ProviderProveedores()),
         ChangeNotifierProvider(
             create: (context) => ProviderReporteProdMasVendidos()),
         ChangeNotifierProvider(

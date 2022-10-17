@@ -4,6 +4,7 @@ import 'package:firebase_orders_flutter/controllers/controllerCategorias.dart';
 import 'package:firebase_orders_flutter/controllers/controllerClientes.dart';
 import 'package:firebase_orders_flutter/controllers/controllerProveedores.dart';
 import 'package:firebase_orders_flutter/database/db_dbprovider.dart';
+import 'package:firebase_orders_flutter/pages/ComprasPage.dart';
 import 'package:firebase_orders_flutter/pages/categoriasPage_query.dart';
 import 'package:firebase_orders_flutter/pages/clientesPage_query.dart';
 import 'package:firebase_orders_flutter/pages/impresora/impresoraAlertDialog.dart';
@@ -105,7 +106,16 @@ class _homePageState extends State<homePage> {
                         leading: const Icon(Icons.add_business_outlined),
                         trailing: const Icon(Icons.arrow_forward_ios),
                         iconColor: Colors.teal,
-                        onTap: () => Navigator.pushNamed(context, 'images'),
+                        onTap: () {
+                          final prov = Provider.of<ProviderProductos>(context,
+                              listen: false);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    comprasPage(provforaneo: prov),
+                              ));
+                        },
                       ),
                       ListTile(
                         title: const Text('Proveedores'),

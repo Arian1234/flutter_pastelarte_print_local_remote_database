@@ -1,25 +1,24 @@
 import 'dart:developer';
-import 'package:firebase_orders_flutter/models/modelProductos.dart';
+import 'package:firebase_orders_flutter/CRUD/crudDetaCompras.dart';
+import 'package:firebase_orders_flutter/models/modelDetaCompras.dart';
 import 'package:flutter/material.dart';
-import '../CRUD/crudDetaorden.dart';
-import '../models/modelDetaOrden.dart';
 
-class ProviderDetaorden extends ChangeNotifier {
-  List<Detaorden> prod = [];
-  List<Productos> productos = [];
+class ProviderDetaCompra extends ChangeNotifier {
+  List<Detacompras> dtcom = [];
 
-  AgregarDetaorden(
-      int idor, int idpro, double precio, double preciov, double cant) async {
-    final model = Detaorden(
-        idord: idor,
+  AgregarDetaCompra(int idcompra, int idpro, double precioolds, double precio,
+      double preciov, double cant) async {
+    final model = Detacompras(
+        idcomp: idcompra,
         idprod: idpro,
+        preciooldcomp: precioolds,
         preciocprod: precio,
         preciovprod: preciov,
         cantprod: cant);
 
-    final id = await DbCrudDetaorden.dbp.NuevoDetaorden(model);
-    model.iddetaord = id;
-    prod.add(model);
+    final id = await DbCrudDetaCompras.dbp.NuevoDetaCompra(model);
+    model.iddetacomp = id;
+    dtcom.add(model);
     log(id.toString());
     //  print("AQUI : " + prod[0].toString());
 

@@ -406,6 +406,7 @@ class _categoriasPage_insertState extends State<categoriasPage_insert> {
 
                           Timer(const Duration(milliseconds: 1900), () {
                             Navigator.pop(context);
+                            Navigator.pop(context);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text('Datos actualizados.')),
@@ -432,7 +433,10 @@ class _categoriasPage_insertState extends State<categoriasPage_insert> {
                             context: context,
                             builder: (context) {
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Colors.pink,
+                                  color: Colors.yellow,
+                                ),
                               );
                             });
 
@@ -443,6 +447,7 @@ class _categoriasPage_insertState extends State<categoriasPage_insert> {
                               _controllernombcateg.value.text.toString();
                           prov.AgregarCategoria(nombre);
                           Timer(const Duration(milliseconds: 1900), () {
+                            Navigator.pop(context);
                             Navigator.pop(context);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(

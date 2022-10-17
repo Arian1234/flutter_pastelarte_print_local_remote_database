@@ -449,7 +449,10 @@ class _productosPage_insertState extends State<productosPage_insert> {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
                                         return Center(
-                                          child: CircularProgressIndicator(),
+                                          child: CircularProgressIndicator(
+                                            backgroundColor: Colors.pink,
+                                            color: Colors.yellow,
+                                          ),
                                         );
                                       } else {
                                         return DropdownButton(
@@ -752,6 +755,7 @@ class _productosPage_insertState extends State<productosPage_insert> {
 
                           Timer(const Duration(milliseconds: 1900), () {
                             Navigator.pop(context);
+                            Navigator.pop(context);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text('Datos actualizados.')),
@@ -778,7 +782,10 @@ class _productosPage_insertState extends State<productosPage_insert> {
                             context: context,
                             builder: (context) {
                               return const Center(
-                                child: CircularProgressIndicator(),
+                                child: CircularProgressIndicator(
+                                  backgroundColor: Colors.pink,
+                                  color: Colors.yellow,
+                                ),
                               );
                             });
 
@@ -810,6 +817,8 @@ class _productosPage_insertState extends State<productosPage_insert> {
                               1);
                           Timer(const Duration(milliseconds: 1900), () {
                             Navigator.pop(context);
+                            Navigator.pop(context);
+
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text('Datos registrados.')),
