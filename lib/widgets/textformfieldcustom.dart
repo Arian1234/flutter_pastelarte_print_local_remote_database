@@ -1,3 +1,4 @@
+import 'package:firebase_orders_flutter/pages/ComprasPage%20_BACKUP.dart';
 import 'package:flutter/material.dart';
 
 class textformfield extends StatefulWidget {
@@ -65,7 +66,84 @@ class _textformfieldState extends State<textformfield> {
           // decoration: InputDecoration(hintText: _hinttext, label: Text('data')),
 
           decoration: InputDecoration(
-            // hintText: widget._hinttext,
+            hintText: "antiguo",
+            // label: Text('data'),
+            labelText: widget._labeltext,
+            border: const OutlineInputBorder(
+                borderRadius: BorderRadius.all(Radius.circular(5))),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class textformfield_hintText extends StatefulWidget {
+  const textformfield_hintText(
+      {Key? key,
+      required double ancho,
+      required TextEditingController controllercategoria,
+      required String hinttext,
+      required TextInputType textinputype,
+      required bool habilitado,
+      required String label})
+      : _ancho = ancho,
+        _controllercategoria = controllercategoria,
+        _hinttext = hinttext,
+        _textinputtype = textinputype,
+        _enable = habilitado,
+        _labeltext = label,
+        super(key: key);
+
+  final double _ancho;
+  final TextEditingController _controllercategoria;
+  final String _hinttext;
+  final TextInputType _textinputtype;
+  final bool _enable;
+  final String _labeltext;
+
+  @override
+  State<textformfield_hintText> createState() => textformfield_hintTextState();
+}
+
+class textformfield_hintTextState extends State<textformfield_hintText> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // decoration: BoxDecoration(border: Border.all(width: 1)),
+      width: widget._ancho,
+      child: SizedBox(
+        width: widget._ancho * .9,
+        child: TextFormField(
+          validator: (value) {
+            if (widget._enable == true) {
+              String v = value!.trim();
+              if (v.isEmpty) {
+                return 'Ingresa un valor válido.';
+              } else {
+                if ((widget._textinputtype == TextInputType.number &&
+                        value.contains(',')) ||
+                    widget._textinputtype == TextInputType.number &&
+                        value.contains('-')) {
+                  return 'Usar punto,no coma,ni guiones.';
+                } else {
+                  if ((v.indexOf('.') != v.lastIndexOf('.')) ||
+                      v.indexOf(',') != v.lastIndexOf(',') ||
+                      v.indexOf('-') != v.lastIndexOf('-')) {
+                    return 'Usar solo un (1) punto.';
+                  }
+                  return null;
+                }
+              }
+            }
+          },
+          controller: widget._controllercategoria,
+          keyboardType: widget._textinputtype,
+          enabled: widget._enable,
+          // decoration: InputDecoration(hintText: _hinttext, label: Text('data')),
+
+          decoration: InputDecoration(
+            hintText: widget._hinttext,
             // label: Text('data'),
             labelText: widget._labeltext,
             border: const OutlineInputBorder(
@@ -131,6 +209,7 @@ class _textformfieldsintitleState extends State<textformfieldsintitle> {
                           .ObtenerProducto('%${widget._controllerfield.text}%');
 
                       break;
+                  
                     case "categorias":
                       widget._prov.ObtenerCategoria(
                           '%${widget._controllerfield.text}%');
