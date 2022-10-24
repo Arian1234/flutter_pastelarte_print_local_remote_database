@@ -102,7 +102,7 @@ class _homePageState extends State<homePage> {
                         ),
                       ),
                       ListTile(
-                        title: const Text('Nuevo ingreso'),
+                        title: const Text('Compras/nuevo ingreso'),
                         leading: const Icon(Icons.add_business_outlined),
                         trailing: const Icon(Icons.arrow_forward_ios),
                         iconColor: Colors.teal,
@@ -200,7 +200,7 @@ class _homePageState extends State<homePage> {
                         trailing: const Icon(Icons.arrow_forward_ios),
                         iconColor: Colors.teal[400],
                         onTap: () {
-                          Navigator.pushNamed(context, "rpt_ventashoy");
+                          Navigator.pushNamed(context, "rpt_ordenesporfecha");
                         },
                       ),
                       ListTile(
@@ -230,12 +230,13 @@ class _homePageState extends State<homePage> {
                             Navigator.pushNamed(context, "rpt_prodmin"),
                       ),
                       ListTile(
-                        title: const Text('Rpt. nuevos ingresos'),
-                        leading: const Icon(Icons.add_business_rounded),
-                        trailing: const Icon(Icons.arrow_forward_ios),
-                        iconColor: Colors.teal[400],
-                        onTap: () => Navigator.pop(context),
-                      ),
+                          title: const Text(
+                              'Rpt. nuevas compras/entrada de productos'),
+                          leading: const Icon(Icons.add_business_rounded),
+                          trailing: const Icon(Icons.arrow_forward_ios),
+                          iconColor: Colors.teal[400],
+                          onTap: () => Navigator.pushNamed(
+                              context, "rpt_comprasporfecha")),
                       ListTile(
                         title: const Text('Enviar R. hacia correo'),
                         leading: const Icon(Icons.email),

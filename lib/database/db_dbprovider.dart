@@ -27,7 +27,7 @@ class DBProvider {
   Future<Database> initdatabase() async {
     var dbpath = await getDatabasesPath();
     log("ruta: $dbpath");
-    _parch = join(dbpath, 'dbchatarrita.db');
+    _parch = join(dbpath, 'dbchatarrita_0.db');
 //
     // final dataDir = Directory(dbpath);
 
@@ -44,7 +44,7 @@ class DBProvider {
 
     return await openDatabase(
       _parch,
-      version: 1,
+      version: 2,
       onOpen: (db) {},
       onCreate: (db, version) async {
         await db.execute(categorias);
@@ -59,6 +59,7 @@ class DBProvider {
         await db.execute(inserts_categ);
         await db.execute(inserts_clie);
         await db.execute(inserts_provee);
+        await db.execute(trigger_detallecompras);
       },
     );
   }
@@ -167,6 +168,12 @@ INSERT INTO PROVEEDORES(idprovee,nombprovee,rucprovee,dirprovee,celprovee) VALUE
 CREATE TRIGGER aft_insert_orders AFTER INSERT ON DETAORDEN
 BEGIN
 UPDATE PRODUCTOS SET cantprod=cantprod-NEW.cantprod WHERE PRODUCTOS.idprod=NEW.idprod;
+END;
+''';
+  final String trigger_detallecompras = '''
+CREATE TRIGGER aft_insert_compras AFTER INSERT ON DETACOMPRA
+BEGIN
+UPDATE PRODUCTOS SET cantprod=cantprod+NEW.cantprod WHERE PRODUCTOS.idprod=NEW.idprod;
 END;
 ''';
 }

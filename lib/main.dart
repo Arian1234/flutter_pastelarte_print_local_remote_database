@@ -16,12 +16,15 @@ import 'package:firebase_orders_flutter/pages/clientesPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/homepage.dart';
 import 'package:firebase_orders_flutter/pages/productosPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/proveedoresPage_insert.dart';
+import 'package:firebase_orders_flutter/pages/reports/ComprasPorFechasPage.dart';
 import 'package:firebase_orders_flutter/pages/reports/prodMin.dart';
 import 'package:firebase_orders_flutter/pages/reports/prodsmasVendidos.dart';
 import 'package:firebase_orders_flutter/pages/reports/prodsMayorUtilPage.dart';
-import 'package:firebase_orders_flutter/pages/reports/ventashoyPage.dart';
+import 'package:firebase_orders_flutter/pages/reports/ordenesPorFechasPage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'controllers/controllerReporteCompras.dart';
+import 'controllers/controllerReporteDetllCompras.dart';
 
 Future<void> main() async {
   // WidgetsFlutterBinding.ensureInitialized();
@@ -59,6 +62,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (context) => ProviderDetaCompra()),
         ChangeNotifierProvider(create: (context) => ProviderReporteVenta()),
         ChangeNotifierProvider(create: (context) => ProviderReporteProdMin()),
+        ChangeNotifierProvider(create: (context) => ProviderReporteCompras()),
+        ChangeNotifierProvider(
+            create: (context) => ProviderReporteDetalleCompras()),
         ChangeNotifierProvider(
             create: (context) => ProviderReporteProdMasVendidos()),
         ChangeNotifierProvider(
@@ -77,7 +83,8 @@ class _MyAppState extends State<MyApp> {
           'clientes_insert': (context) => const clientesPage_insert(),
           'proveedore_insert': (context) => const proveedoresPage_insert(),
           //Reportes
-          'rpt_ventashoy': (context) => const ventashoyPage(),
+          'rpt_ordenesporfecha': (context) => const ordenesPorFechasPage(),
+          'rpt_comprasporfecha': (context) => const comprasPorFechasPage(),
           'rpt_produtilidad': (context) => const reporteProdPorcUtilPage(),
           'rpt_prodmin': (context) => const reporteProdMinPage(),
           'rpt_prodmasvendidos': (context) =>

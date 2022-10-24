@@ -10,17 +10,17 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../OrdenPage.dart';
 
-class ventashoyPage extends StatefulWidget {
-  const ventashoyPage({Key? key}) : super(key: key);
+class ordenesPorFechasPage extends StatefulWidget {
+  const ordenesPorFechasPage({Key? key}) : super(key: key);
 
   @override
-  State<ventashoyPage> createState() => _ventashoyPageState();
+  State<ordenesPorFechasPage> createState() => _ordenesPorFechasPageState();
 }
 
 String day = "0" + DateTime.now().day.toString();
 String days = (day.substring(day.length - 2, day.length));
 
-class _ventashoyPageState extends State<ventashoyPage> {
+class _ordenesPorFechasPageState extends State<ordenesPorFechasPage> {
   String fechai = "${DateTime.now().year}-${DateTime.now().month}-${days}";
   String fechaf = "${DateTime.now().year}-${DateTime.now().month}-${days}";
   Decimal tot = 0.toDecimal();

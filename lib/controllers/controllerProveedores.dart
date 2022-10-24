@@ -3,6 +3,7 @@ import 'package:firebase_orders_flutter/CRUD/crudProveedores.dart';
 import 'package:firebase_orders_flutter/models/modelProveedores.dart';
 import 'package:flutter/material.dart';
 import '../CRUD/crudClientes.dart';
+import '../database/db_dbprovider.dart';
 import '../models/modelClientes.dart';
 
 class ProviderProveedores extends ChangeNotifier {
@@ -35,6 +36,14 @@ class ProviderProveedores extends ChangeNotifier {
     proveed.removeAt(index);
     proveed.insert(index, model);
     notifyListeners();
+  }
+
+  static Future<List<Map<String, dynamic>>>
+      obtenerProveedorDropDownButton() async {
+    log('buscando');
+    final db = await DBProvider.db.getdatabase();
+    // notifyListeners();
+    return await db.rawQuery("SELECT * FROM PROVEEDORES");
   }
 
   ObtenerProveedores(String busqueda) async {

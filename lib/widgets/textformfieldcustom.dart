@@ -66,7 +66,7 @@ class _textformfieldState extends State<textformfield> {
           // decoration: InputDecoration(hintText: _hinttext, label: Text('data')),
 
           decoration: InputDecoration(
-            hintText: "antiguo",
+            // hintText: "antiguo",
             // label: Text('data'),
             labelText: widget._labeltext,
             border: const OutlineInputBorder(
@@ -209,7 +209,7 @@ class _textformfieldsintitleState extends State<textformfieldsintitle> {
                           .ObtenerProducto('%${widget._controllerfield.text}%');
 
                       break;
-                  
+
                     case "categorias":
                       widget._prov.ObtenerCategoria(
                           '%${widget._controllerfield.text}%');
