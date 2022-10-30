@@ -3,7 +3,7 @@ import 'dart:ffi';
 
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:decimal/decimal.dart';
-import 'package:firebase_orders_flutter/controllers/controllerDetalleReporteVentas.dart';
+
 import 'package:firebase_orders_flutter/controllers/controllerReporteCompras.dart';
 import 'package:firebase_orders_flutter/controllers/controllerReporteDetllCompras.dart';
 import 'package:flutter/material.dart';
@@ -31,12 +31,6 @@ class _comprasPorFechasPageState extends State<comprasPorFechasPage> {
   initState() {
     // TODO: implement initState
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
   }
 
   @override
@@ -335,15 +329,15 @@ class _comprasPorFechasPageState extends State<comprasPorFechasPage> {
                                                                 FontWeight
                                                                     .bold),
                                                       )),
-                                                  Container(
-                                                      width: _ancho * .15,
-                                                      child: const Text(
-                                                        "TOTAL",
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ))
+                                                  // Container(
+                                                  //     width: _ancho * .15,
+                                                  //     child: const Text(
+                                                  //       "TOTAL",
+                                                  //       style: TextStyle(
+                                                  //           fontWeight:
+                                                  //               FontWeight
+                                                  //                   .bold),
+                                                  //     ))
                                                 ],
                                               ),
                                             ),
@@ -361,7 +355,7 @@ class _comprasPorFechasPageState extends State<comprasPorFechasPage> {
                                                       title: Text(provdeta
                                                               .DRC[index].prod
                                                               .toString() +
-                                                          " | P. ANT: " +
+                                                          "\nP. ANT: " +
                                                           provdeta.DRC[index]
                                                               .precioant
                                                               .toString()),
@@ -374,12 +368,12 @@ class _comprasPorFechasPageState extends State<comprasPorFechasPage> {
                                                               .DRC[index].precio
                                                               .toString()),
                                                       leading: Text(provdeta
-                                                          .DRC[index].cod
+                                                          .DRC[index].cant
                                                           .toString()),
-                                                      trailing: Text(provdeta
-                                                              .DRC[index].cant
-                                                              .toString() +
-                                                          " UND"),
+                                                      // trailing: Text(provdeta
+                                                      //         .DRC[index].cant
+                                                      //         .toString() +
+                                                      //     " UND"),
                                                     ),
                                                   );
                                                 },

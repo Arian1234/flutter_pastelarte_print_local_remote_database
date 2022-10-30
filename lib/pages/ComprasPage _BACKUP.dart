@@ -381,8 +381,8 @@ class _comprasPageState extends State<comprasPage> {
                       hinttext: 'B. producto por nombre',
                       textinputype: TextInputType.text,
                       habilitado: true,
-                      prov: prov,
-                      busc: "tort",
+                      prov: prov
+                   
                     ),
                     SizedBox(
                       width: _ancho * .02,

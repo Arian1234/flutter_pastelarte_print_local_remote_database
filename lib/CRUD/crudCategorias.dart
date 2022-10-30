@@ -1,4 +1,5 @@
-
+import 'dart:developer';
+import 'dart:io';
 
 import 'package:firebase_orders_flutter/database/db_dbprovider.dart';
 
@@ -7,21 +8,33 @@ import '../models/modelCategorias.dart';
 class DbCrudCategorias {
   static final DbCrudCategorias dbp = DbCrudCategorias._();
   DbCrudCategorias._();
-  Future<int> NuevaCategoria(Categorias categorias) async {
+
+  Future<int> nuevaCategoria(Categorias categorias) async {
     final db = await DBProvider.db.getdatabase();
-    final res = await db.insert('CATEGORIAS', categorias.toJson());
+    var res = 1;
+    try {
+      res = await db.insert('CATEGORIAS', categorias.toJson());
+    } catch (e) {
+      return 0;
+    }
     return res;
   }
 
-  Future<int> ActualizarCategorias(int cod, String nombre) async {
+  Future<int> actualizarCategorias(int cod, String nombre) async {
     final db = await DBProvider.db.getdatabase();
-    final res = await db.rawUpdate(
-        '''UPDATE CATEGORIAS SET nombCateg=? where idcateg=? ''',
-        [nombre, cod]);
+    var res = 1;
+    try {
+      res = await db.rawUpdate(
+          '''UPDATE CATEGORIAS SET nombCateg=? where idcateg=? ''',
+          [nombre, cod]);
+    } catch (e) {
+      return 0;
+    }
+
     return res;
   }
 
-  Future<List<Categorias>> GetCategorias(String busqueda) async {
+  Future<List<Categorias>> getCategorias(String busqueda) async {
     final db = await DBProvider.db.getdatabase();
     final res = await db.query('CATEGORIAS',
         where: 'nombCateg like ?', whereArgs: [busqueda.toString()]);

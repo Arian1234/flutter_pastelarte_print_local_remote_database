@@ -23,6 +23,13 @@ class _productosPage_queryState extends State<productosPage_query> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    widget.provforaneo.prod.clear();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double _ancho = MediaQuery.of(context).size.width;
     double _alto = MediaQuery.of(context).size.height;
@@ -60,15 +67,13 @@ class _productosPage_queryState extends State<productosPage_query> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     textformfieldsintitle(
-                      clase: "productos",
-                      ancho: _ancho * .8,
-                      controllerfield: _controllerbuscador,
-                      hinttext: 'B. producto por nombre',
-                      textinputype: TextInputType.text,
-                      habilitado: true,
-                      prov: prov,
-                      busc: _controllerbuscador.text,
-                    ),
+                        clase: "productos",
+                        ancho: _ancho * .8,
+                        controllerfield: _controllerbuscador,
+                        hinttext: 'B. producto por nombre',
+                        textinputype: TextInputType.text,
+                        habilitado: true,
+                        prov: prov),
                     // SizedBox(
                     //   width: _ancho * .02,
                     // ),

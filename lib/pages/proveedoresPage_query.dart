@@ -59,15 +59,13 @@ class _proveedoresPage_queryState extends State<proveedoresPage_query> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     textformfieldsintitle(
-                      clase: "proveedores",
-                      ancho: _ancho * .8,
-                      controllerfield: _controllerbuscador,
-                      hinttext: 'B. proveedores por nombre',
-                      textinputype: TextInputType.text,
-                      habilitado: true,
-                      prov: prov,
-                      busc: _controllerbuscador.text,
-                    ),
+                        clase: "proveedores",
+                        ancho: _ancho * .8,
+                        controllerfield: _controllerbuscador,
+                        hinttext: 'B. proveedores por nombre',
+                        textinputype: TextInputType.text,
+                        habilitado: true,
+                        prov: prov),
                   ],
                 ),
                 Padding(

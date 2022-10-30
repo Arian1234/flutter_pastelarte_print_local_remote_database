@@ -1,5 +1,6 @@
+import 'dart:developer';
 import 'package:firebase_orders_flutter/controllers/controllerProductos.dart';
-import 'package:firebase_orders_flutter/pages/impresora/printerenum.dart';
+import 'package:firebase_orders_flutter/helpers/impresora/printerenum.dart';
 import 'package:flutter/services.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
@@ -66,6 +67,8 @@ class TestPrint {
                 format: "%-2s %14s %6s %7s %n");
           }
         }
+        listado.clear();
+        log("TERMINE DE IMPRIMIR");
         bluetooth.printNewLine();
         bluetooth.printCustom(
             "Total : $total sol(es).", Size.bold.val, Align.left.val);

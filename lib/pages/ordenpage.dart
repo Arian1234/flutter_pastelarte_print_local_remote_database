@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:firebase_orders_flutter/controllers/controllerDetaorden.dart';
 import 'package:firebase_orders_flutter/controllers/controllerOrdenes.dart';
-import 'package:firebase_orders_flutter/pages/impresora/testprint.dart';
 import 'package:firebase_orders_flutter/widgets/textformfieldcustom.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue/flutter_blue.dart';
@@ -12,6 +11,8 @@ import 'package:screenshot/screenshot.dart';
 import '../controllers/controllerProductos.dart';
 import 'package:decimal/decimal.dart';
 import 'package:share_plus/share_plus.dart';
+
+import '../helpers/impresora/testprint.dart';
 
 FlutterBlue flutterBlue = FlutterBlue.instance;
 
@@ -28,12 +29,21 @@ class _ordenPageState extends State<ordenPage> {
   var listado = [];
   var iniciado = 1;
   int cant = 0;
+  Decimal total = 0.toDecimal();
+  Decimal pcosto = 0.toDecimal();
   List<ScanResult>? scanResult;
 
   @override
   void initState() {
     super.initState();
     widget.provforaneo.ObtenerProducto('%%');
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    widget.provforaneo.prod.clear();
   }
 
   @override
@@ -45,14 +55,13 @@ class _ordenPageState extends State<ordenPage> {
     final provordenes = Provider.of<ProviderOrdenes>(context, listen: false);
     final provdetaordenes =
         Provider.of<ProviderDetaorden>(context, listen: false);
-    Decimal total = 0.toDecimal();
-    Decimal pcosto = 0.toDecimal();
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink[400],
         centerTitle: true,
-        title: Text('Productos: $cant'),
+        // title: Text('Items: $cant | Total: $total'),
+        title: Text('Items: $cant'),
         elevation: 1,
         actions: [
           Padding(
@@ -81,7 +90,6 @@ class _ordenPageState extends State<ordenPage> {
                                 Decimal.parse(
                                     prov.prod[i].precioprod.toString());
                             total = total + sd;
-
                             pcosto = pcosto + cost;
                           }
                         }
@@ -155,79 +163,143 @@ class _ordenPageState extends State<ordenPage> {
                                         ),
                                         GestureDetector(
                                           onTap: () async {
-                                            final now = DateTime.now();
-                                            // String fecha =
-                                            //     ("${now.day}/${now.month}/${now.year}");
-                                            String day =
-                                                "0" + now.day.toString();
-                                            String days = (day.substring(
-                                                day.length - 2, day.length));
-                                            String fecha =
-                                                ("${now.year}-${now.month}-${days}");
+                                            return showDialog(
+                                                context: context,
+                                                barrierDismissible: false,
+                                                builder:
+                                                    (BuildContext context) {
+                                                  return AlertDialog(
+                                                    content: Text(
+                                                        "¿Desea guardar esta orden?"),
+                                                    actions: [
+                                                      GestureDetector(
+                                                        onTap: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                          total = 0.toDecimal();
+                                                          pcosto =
+                                                              0.toDecimal();
+                                                        },
+                                                        child: buttonmodal(
+                                                          ancho: _ancho * .20,
+                                                          alto: _alto * .06,
+                                                          title: "Cancelar",
+                                                          icon: Icons
+                                                              .arrow_back_ios,
+                                                          primary: Colors.red
+                                                              .withOpacity(.8),
+                                                          second: Colors.red
+                                                              .withOpacity(.9),
+                                                          shadow:
+                                                              Colors.black26,
+                                                        ),
+                                                      ),
+                                                      GestureDetector(
+                                                        onTap: () async {
+                                                          final now =
+                                                              DateTime.now();
+                                                          // String fecha =
+                                                          //     ("${now.day}/${now.month}/${now.year}");
+                                                          String day = "0" +
+                                                              now.day
+                                                                  .toString();
+                                                          String days =
+                                                              (day.substring(
+                                                                  day.length -
+                                                                      2,
+                                                                  day.length));
+                                                          String fecha =
+                                                              ("${now.year}-${now.month}-${days}");
 
-                                            String unix = DateTime.now()
-                                                .toUtc()
-                                                .millisecondsSinceEpoch
-                                                .toString();
+                                                          String unix = DateTime
+                                                                  .now()
+                                                              .toUtc()
+                                                              .millisecondsSinceEpoch
+                                                              .toString();
 
-                                            final idorden =
-                                                await provordenes.AgregarOrden(
-                                                    unix,
-                                                    1,
-                                                    fecha,
-                                                    fecha,
-                                                    "0",
-                                                    total.toDouble(),
-                                                    total.toDouble(),
-                                                    (total - pcosto).toDouble(),
-                                                    "---",
-                                                    0);
+                                                          final idorden = await provordenes
+                                                              .AgregarOrden(
+                                                                  unix,
+                                                                  1,
+                                                                  fecha,
+                                                                  fecha,
+                                                                  "0",
+                                                                  total
+                                                                      .toDouble(),
+                                                                  total
+                                                                      .toDouble(),
+                                                                  (total -
+                                                                          pcosto)
+                                                                      .toDouble(),
+                                                                  "---",
+                                                                  0);
 
-                                            for (var i = 0;
-                                                i < listado.length;
-                                                i++) {
-                                              if (listado[i] > 0) {
-                                                provdetaordenes
-                                                    .AgregarDetaorden(
-                                                        idorden,
-                                                        (prov.prod[i].idprod)!
-                                                            .toInt(),
-                                                        prov.prod[i].precioprod!
-                                                            .toDouble(),
-                                                        prov.prod[i].ventaprod!
-                                                            .toDouble(),
-                                                        double.parse(listado[i]
-                                                            .toString()));
-                                              }
-                                            }
-                                            TestPrint().sample(
-                                                listado,
-                                                prov,
-                                                listado.length,
-                                                total.toString(),
-                                                unix);
-                                            log("total : $total");
+                                                          for (var i = 0;
+                                                              i <
+                                                                  listado
+                                                                      .length;
+                                                              i++) {
+                                                            if (listado[i] >
+                                                                0) {
+                                                              provdetaordenes.AgregarDetaorden(
+                                                                  idorden,
+                                                                  (prov.prod[i]
+                                                                          .idprod)!
+                                                                      .toInt(),
+                                                                  prov.prod[i]
+                                                                      .precioprod!
+                                                                      .toDouble(),
+                                                                  prov.prod[i]
+                                                                      .ventaprod!
+                                                                      .toDouble(),
+                                                                  double.parse(
+                                                                      listado[i]
+                                                                          .toString()));
+                                                            }
+                                                          }
+                                                          await TestPrint()
+                                                              .sample(
+                                                                  listado,
+                                                                  prov,
+                                                                  listado
+                                                                      .length,
+                                                                  total
+                                                                      .toString(),
+                                                                  unix);
 
-                                            //CLEAR
-                                            prov.ObtenerProducto('%%');
-                                            Navigator.pop(context);
-                                            iniciado = 1;
-                                            total = 0.toDecimal();
-                                            pcosto = 0.toDecimal();
-                                            setState(() {
-                                              cant = 0;
-                                              listado.clear();
-                                            });
+                                                          log("total : $total");
 
-                                            log("Tamanio del listado " +
-                                                listado.length.toString());
+                                                          Navigator.pop(
+                                                              context);
+                                                          Navigator.pop(
+                                                              context);
+                                                          //CLEAR
+                                                          nuevaorden(prov);
 
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              SnackBar(
-                                                  content: Text(
-                                                      "Nota de venta: $unix guardada, imprimiendo.")),
-                                            );
+                                                          ScaffoldMessenger.of(
+                                                                  context)
+                                                              .showSnackBar(
+                                                            SnackBar(
+                                                                content: Text(
+                                                                    "Nota de venta: $unix guardada, imprimiendo.")),
+                                                          );
+                                                        },
+                                                        child: buttonmodal(
+                                                          ancho: _ancho * .20,
+                                                          alto: _alto * .06,
+                                                          title: "Guardar",
+                                                          icon: Icons.save,
+                                                          primary: Colors.blue
+                                                              .withOpacity(.8),
+                                                          second: Colors.blue
+                                                              .withOpacity(1),
+                                                          shadow:
+                                                              Colors.black26,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                });
                                           },
                                           child: buttonmodal(
                                             ancho: _ancho * .20,
@@ -259,8 +331,8 @@ class _ordenPageState extends State<ordenPage> {
                                             fontSize: 22),
                                       ),
                                       Text(
-                                        ' $total soles ${total - pcosto}',
-                                        // ' $total soles ',
+                                        // ' $total soles ${total - pcosto}',
+                                        ' $total soles ',
                                         style: const TextStyle(
                                             fontWeight: FontWeight.w400,
                                             fontStyle: FontStyle.italic,
@@ -426,13 +498,13 @@ class _ordenPageState extends State<ordenPage> {
                   children: [
                     textformfieldsintitle(
                       clase: "productos",
-                      ancho: _ancho * .8,
+                      ancho: _ancho * .7,
                       controllerfield: _controllercategoria,
                       hinttext: 'B. producto por nombre',
                       textinputype: TextInputType.text,
                       habilitado: true,
-                      prov: prov,
-                      busc: "tort",
+                      prov: prov
+                    
                     ),
                     SizedBox(
                       width: _ancho * .02,
@@ -441,9 +513,9 @@ class _ordenPageState extends State<ordenPage> {
                         onPressed: () {
                           prov.ObtenerProducto('%%');
                         },
-                        icon: Icon(
-                          Icons.all_inbox,
-                          color: Colors.blueAccent[200],
+                        icon: const Icon(
+                          Icons.find_replace_outlined,
+                          color: Colors.pink,
                           size: 30,
                         ))
                   ],
@@ -454,14 +526,25 @@ class _ordenPageState extends State<ordenPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      buttonOrdenes(
-                        ancho: _ancho * .40,
-                        alto: _alto * .06,
-                        title: "N. orden",
-                        icon: Icons.add,
-                        primary: Colors.teal.withOpacity(.7),
-                        second: Colors.blueAccent.withOpacity(.9),
-                        shadow: Colors.white,
+                      GestureDetector(
+                        onTap: () {
+                          nuevaorden(prov);
+                          listado.clear();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text(
+                                    "Nueva orden,items y productos seleccionados en cero.")),
+                          );
+                        },
+                        child: buttonOrdenes(
+                          ancho: _ancho * .40,
+                          alto: _alto * .06,
+                          title: "N. orden",
+                          icon: Icons.add,
+                          primary: Colors.teal.withOpacity(.7),
+                          second: Colors.blueAccent.withOpacity(.9),
+                          shadow: Colors.white,
+                        ),
                       ),
                       buttonOrdenes(
                         ancho: _ancho * .40,
@@ -476,7 +559,8 @@ class _ordenPageState extends State<ordenPage> {
                   ),
                 ),
                 SingleChildScrollView(
-                  child: SizedBox(
+                  child: Container(
+                    // color: Colors.yellow,
                     width: _ancho * .95,
                     height: _alto * .73,
                     child: Center(
@@ -676,6 +760,19 @@ class _ordenPageState extends State<ordenPage> {
         ),
       ),
     );
+  }
+
+  void nuevaorden(ProviderProductos prov) {
+    prov.ObtenerProducto('%%');
+    iniciado = 1;
+    total = 0.toDecimal();
+    pcosto = 0.toDecimal();
+
+    setState(() {
+      cant = 0;
+      listado.clear();
+    });
+    log("Tamanio del listado " + listado.length.toString());
   }
 }
 

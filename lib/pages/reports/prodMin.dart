@@ -99,7 +99,7 @@ class _reporteProdMinPageState extends State<reporteProdMinPage> {
                               width: _ancho * .10,
                             ),
                             const Text(
-                              "PRODUCTO/CANT MINIMA",
+                              "PRODUCTO/CANT MIN",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
                             SizedBox(

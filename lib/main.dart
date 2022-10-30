@@ -13,7 +13,7 @@ import 'package:firebase_orders_flutter/controllers/controllerReporteProdMin.dar
 import 'package:firebase_orders_flutter/controllers/controllerReporteVentas.dart';
 import 'package:firebase_orders_flutter/pages/categoriasPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/clientesPage_insert.dart';
-import 'package:firebase_orders_flutter/pages/homepage.dart';
+import 'package:firebase_orders_flutter/homepage.dart';
 import 'package:firebase_orders_flutter/pages/productosPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/proveedoresPage_insert.dart';
 import 'package:firebase_orders_flutter/pages/reports/ComprasPorFechasPage.dart';
@@ -75,7 +75,8 @@ class _MyAppState extends State<MyApp> {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Pastelarte',
-        home: const homePage(),
+        // home: const homePage(),
+        initialRoute: 'home',
         routes: {
           'home': (context) => const homePage(),
           'productos_insert': (context) => const productosPage_insert(),

@@ -164,8 +164,7 @@ class textformfieldsintitle extends StatefulWidget {
       required String hinttext,
       required TextInputType textinputype,
       required bool habilitado,
-      required dynamic prov,
-      required String busc})
+      required dynamic prov})
       : _clase = clase,
         _ancho = ancho,
         _controllerfield = controllerfield,
@@ -173,7 +172,6 @@ class textformfieldsintitle extends StatefulWidget {
         _textinputtype = textinputype,
         _enable = habilitado,
         _prov = prov,
-        _busc = busc,
         super(key: key);
 
   final String _clase;
@@ -183,7 +181,6 @@ class textformfieldsintitle extends StatefulWidget {
   final TextInputType _textinputtype;
   final bool _enable;
   final dynamic _prov;
-  final String _busc;
 
   @override
   State<textformfieldsintitle> createState() => _textformfieldsintitleState();
@@ -211,7 +208,7 @@ class _textformfieldsintitleState extends State<textformfieldsintitle> {
                       break;
 
                     case "categorias":
-                      widget._prov.ObtenerCategoria(
+                      widget._prov.obtenerCategoria(
                           '%${widget._controllerfield.text}%');
                       break;
                     case "clientes":

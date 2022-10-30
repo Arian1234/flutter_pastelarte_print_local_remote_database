@@ -66,8 +66,8 @@ class _clientesPage_queryState extends State<clientesPage_query> {
                       hinttext: 'B. clientes por nombre',
                       textinputype: TextInputType.text,
                       habilitado: true,
-                      prov: prov,
-                      busc: _controllerbuscador.text,
+                      prov: prov
+                    
                     ),
                   ],
                 ),

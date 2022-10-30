@@ -1,5 +1,5 @@
 import 'dart:developer';
-import 'package:firebase_orders_flutter/pages/impresora/testprint.dart';
+import 'package:firebase_orders_flutter/helpers/impresora/testprint.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';

@@ -27,7 +27,7 @@ class DBProvider {
   Future<Database> initdatabase() async {
     var dbpath = await getDatabasesPath();
     log("ruta: $dbpath");
-    _parch = join(dbpath, 'dbchatarrita_0.db');
+    _parch = join(dbpath, 'dbchatarrita_000.db');
 //
     // final dataDir = Directory(dbpath);
 
@@ -44,7 +44,7 @@ class DBProvider {
 
     return await openDatabase(
       _parch,
-      version: 2,
+      version: 4,
       onOpen: (db) {},
       onCreate: (db, version) async {
         await db.execute(categorias);
@@ -55,11 +55,12 @@ class DBProvider {
         await db.execute(proveedores);
         await db.execute(compras);
         await db.execute(detacompra);
-        await db.execute(trigger_detalleordenes);
         await db.execute(inserts_categ);
         await db.execute(inserts_clie);
         await db.execute(inserts_provee);
+        await db.execute(trigger_detalleordenes);
         await db.execute(trigger_detallecompras);
+        await db.execute(trigger_compra_update_precio_prod);
       },
     );
   }
@@ -174,6 +175,12 @@ END;
 CREATE TRIGGER aft_insert_compras AFTER INSERT ON DETACOMPRA
 BEGIN
 UPDATE PRODUCTOS SET cantprod=cantprod+NEW.cantprod WHERE PRODUCTOS.idprod=NEW.idprod;
+END;
+''';
+  final String trigger_compra_update_precio_prod = '''
+CREATE TRIGGER aft_insert_compras_update_precio_prod AFTER INSERT ON DETACOMPRA
+BEGIN
+UPDATE PRODUCTOS SET ventaprod=NEW.preciovprod,precioprod=NEW.preciocprod WHERE PRODUCTOS.idprod=NEW.idprod;
 END;
 ''';
 }
