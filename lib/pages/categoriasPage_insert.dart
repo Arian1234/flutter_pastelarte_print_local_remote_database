@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_orders_flutter/controllers/controllerCategorias.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
@@ -87,7 +85,6 @@ class _categoriasPage_insertState extends State<categoriasPage_insert> {
                               const SnackBar(
                                   content:
                                       Text('Datos registrados/actualizados.')),
-                                      
                             );
                           });
                         } else {

@@ -24,7 +24,7 @@ class ProviderCategorias extends ChangeNotifier {
   Future<int> actualizarCategoria(int cod, String categ) async {
     final model = Categorias(idcateg: cod, nombCateg: categ);
     final est = await DbCrudCategorias.dbp.actualizarCategorias(cod, categ);
-    if (est == 1) {
+    if (est != 0) {
       int index = cat.indexWhere((element) => element.idcateg == cod);
       cat.removeAt(index);
       cat.insert(index, model);

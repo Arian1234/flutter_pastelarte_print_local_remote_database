@@ -1,4 +1,3 @@
-import 'package:firebase_orders_flutter/pages/ComprasPage%20_BACKUP.dart';
 import 'package:flutter/material.dart';
 
 class textformfield extends StatefulWidget {
@@ -197,27 +196,27 @@ class _textformfieldsintitleState extends State<textformfieldsintitle> {
         child: Row(
           children: [
             SizedBox(
-              width: widget._ancho * .8,
+              width: widget._ancho * .98,
               child: TextFormField(
                 onFieldSubmitted: (value) {
                   switch (widget._clase) {
                     case "productos":
-                      widget._prov
-                          .ObtenerProducto('%${widget._controllerfield.text}%');
+                      widget._prov.ObtenerProducto(
+                          '%${widget._controllerfield.text.trim()}%');
 
                       break;
 
                     case "categorias":
                       widget._prov.obtenerCategoria(
-                          '%${widget._controllerfield.text}%');
+                          '%${widget._controllerfield.text.trim()}%');
                       break;
                     case "clientes":
-                      widget._prov
-                          .ObtenerClientes('%${widget._controllerfield.text}%');
+                      widget._prov.obtenerClientes(
+                          '%${widget._controllerfield.text.trim()}%');
                       break;
                     case "proveedores":
                       widget._prov.ObtenerProveedores(
-                          '%${widget._controllerfield.text}%');
+                          '%${widget._controllerfield.text.trim()}%');
                       break;
 
                     default:

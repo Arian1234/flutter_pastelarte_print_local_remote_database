@@ -311,7 +311,7 @@ class listViewOpcionesDrawer extends StatelessWidget {
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => categoriasPage_query(),
+                  builder: (context) => const categoriasPage_query(),
                 ));
           },
         ),
@@ -322,10 +322,12 @@ class listViewOpcionesDrawer extends StatelessWidget {
           iconColor: Colors.pink[400],
           onTap: () {
             final prov = Provider.of<ProviderClientes>(context, listen: false);
+            prov.clie.clear();
+            prov.obtenerClientes("%%");
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => clientesPage_query(provforaneo: prov),
+                  builder: (context) => const clientesPage_query(),
                 ));
           },
         ),

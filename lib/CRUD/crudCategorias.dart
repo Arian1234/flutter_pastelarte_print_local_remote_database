@@ -1,8 +1,4 @@
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:firebase_orders_flutter/database/db_dbprovider.dart';
-
 import '../models/modelCategorias.dart';
 
 class DbCrudCategorias {
@@ -11,27 +7,26 @@ class DbCrudCategorias {
 
   Future<int> nuevaCategoria(Categorias categorias) async {
     final db = await DBProvider.db.getdatabase();
-    var res = 1;
+    var res = 0;
     try {
       res = await db.insert('CATEGORIAS', categorias.toJson());
+      return res;
     } catch (e) {
-      return 0;
+      return res;
     }
-    return res;
   }
 
   Future<int> actualizarCategorias(int cod, String nombre) async {
     final db = await DBProvider.db.getdatabase();
-    var res = 1;
+    var res = 0;
     try {
       res = await db.rawUpdate(
           '''UPDATE CATEGORIAS SET nombCateg=? where idcateg=? ''',
           [nombre, cod]);
+      return res;
     } catch (e) {
-      return 0;
+      return res;
     }
-
-    return res;
   }
 
   Future<List<Categorias>> getCategorias(String busqueda) async {
@@ -42,13 +37,4 @@ class DbCrudCategorias {
         ? res.map((e) => Categorias.fromJson(e)).toList()
         : [];
   }
-
-  // Future<List<Categorias>> GetProductosxBarra(String cod) async {
-  //   final db = await DbProvider.db.getdatabase();
-  //   final res = await db.query('PRODUCTOS',
-  //       where: 'codigo=?', whereArgs: [cod], limit: 1);
-  //   return res.isNotEmpty
-  //       ? res.map((e) => Categorias.fromJson(e)).toList()
-  //       : [];
-  // }
 }
