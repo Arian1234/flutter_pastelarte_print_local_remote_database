@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_orders_flutter/controllers/controllerClientes.dart';
 import 'package:firebase_orders_flutter/widgets/inputsValidator.dart';
 import 'dart:async';
@@ -90,7 +88,7 @@ class _clientesPage_insertState extends State<clientesPage_insert> {
                           est =
                               await prov.agregarCliente(nombre, doc, dir, cel);
                         }
-                        ;
+                        
 
                         if (est == 1) {
                           Timer(const Duration(milliseconds: 1900), () {

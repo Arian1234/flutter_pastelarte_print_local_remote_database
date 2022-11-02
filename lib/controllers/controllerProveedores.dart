@@ -2,27 +2,31 @@ import 'dart:developer';
 import 'package:firebase_orders_flutter/CRUD/crudProveedores.dart';
 import 'package:firebase_orders_flutter/models/modelProveedores.dart';
 import 'package:flutter/material.dart';
-import '../CRUD/crudClientes.dart';
 import '../database/db_dbprovider.dart';
-import '../models/modelClientes.dart';
 
 class ProviderProveedores extends ChangeNotifier {
   List<Proveedores> proveed = [];
 
-  AgregarProveedor(String nomb, String ruc, String dir, String cel) async {
+  Future<int> agregarProveedor(
+      String nomb, String ruc, String dir, String cel) async {
     final model = Proveedores(
       nombprovee: nomb,
       rucprovee: ruc,
       dirprovee: dir,
       celprovee: cel,
     );
-    final id = await DbCrudProveedores.dbp.NuevoProveedor(model);
-    model.idprovee = id;
-    proveed.add(model);
-    notifyListeners();
+    final id = await DbCrudProveedores.dbp.nuevoProveedor(model);
+    if (id != 0) {
+      model.idprovee = id;
+      proveed.add(model);
+      notifyListeners();
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
-  ActualizarProveedor(
+  Future<int> actualizarProveedor(
       int cod, String nomb, String ruc, String dir, String cel) async {
     final model = Proveedores(
         idprovee: cod,
@@ -30,37 +34,31 @@ class ProviderProveedores extends ChangeNotifier {
         rucprovee: ruc,
         dirprovee: dir,
         celprovee: cel);
-    await DbCrudProveedores.dbp.ActualizarProveedor(cod, nomb, ruc, dir, cel);
-    int index = proveed.indexWhere((element) => element.idprovee == cod);
-    log(index.toString());
-    proveed.removeAt(index);
-    proveed.insert(index, model);
-    notifyListeners();
+    final est = await DbCrudProveedores.dbp
+        .actualizarProveedor(cod, nomb, ruc, dir, cel);
+    if (est != 0) {
+      int index = proveed.indexWhere((element) => element.idprovee == cod);
+      log(index.toString());
+      proveed.removeAt(index);
+      proveed.insert(index, model);
+      notifyListeners();
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
   static Future<List<Map<String, dynamic>>>
       obtenerProveedorDropDownButton() async {
     log('buscando');
     final db = await DBProvider.db.getdatabase();
-    // notifyListeners();
     return await db.rawQuery("SELECT * FROM PROVEEDORES");
   }
 
-  ObtenerProveedores(String busqueda) async {
-    log('buscando');
+  obtenerProveedores(String busqueda) async {
     final model =
-        await DbCrudProveedores.dbp.GetProveedores(busqueda.toString());
+        await DbCrudProveedores.dbp.getProveedores(busqueda.toString());
     proveed = [...model];
-    for (var i = 0; i < proveed.length; i++) {
-      log('${proveed[i].nombprovee} - ${proveed[i].idprovee}${proveed[i].rucprovee}${proveed[i].dirprovee}${proveed[i].celprovee}');
-      print('object');
-    }
     notifyListeners();
   }
-
-  // ObtenerProductosxBarra(String cod) async {
-  //   final model = await DbCrudCategorias.dbp.GetProductosxBarra(cod.toString());
-  //   prod = [...model];
-  //   notifyListeners();
-  // }
 }

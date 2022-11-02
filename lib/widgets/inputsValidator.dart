@@ -114,7 +114,7 @@ class textFormField_inputInteger extends StatelessWidget {
       child: TextFormField(
         inputFormatters: <TextInputFormatter>[
           FilteringTextInputFormatter.allow(
-              RegExp(r'^(?=\D*(?:\d\D*){1,9}$)\d+?$'))
+              RegExp(r'^(?=\D*(?:\d\D*){1,12}$)\d+?$'))
         ],
         controller: controller,
         enabled: enable,
@@ -124,7 +124,7 @@ class textFormField_inputInteger extends StatelessWidget {
           if (valor.isEmpty) {
             return "Casillero vacío.";
           } else {
-            if (!valor.contains(RegExp(r'^(?=\D*(?:\d\D*){1,9}$)\d+?$'))) {
+            if (!valor.contains(RegExp(r'^(?=\D*(?:\d\D*){1,12}$)\d+?$'))) {
               return "Caracteres no válidos.";
             }
           }

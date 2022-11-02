@@ -275,11 +275,12 @@ class listViewOpcionesDrawer extends StatelessWidget {
           onTap: () {
             final prov =
                 Provider.of<ProviderProveedores>(context, listen: false);
+            prov.proveed.clear();
+            prov.obtenerProveedores("%%");
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) =>
-                      proveedoresPage_query(provforaneo: prov),
+                  builder: (context) => const proveedoresPage_query(),
                 ));
           },
         ),
@@ -290,10 +291,12 @@ class listViewOpcionesDrawer extends StatelessWidget {
           iconColor: Colors.pink[400],
           onTap: () {
             final prov = Provider.of<ProviderProductos>(context, listen: false);
+            prov.prod.clear();
+            prov.obtenerProducto('%%');
             Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => productosPage_query(provforaneo: prov),
+                  builder: (context) => const productosPage_query(),
                 ));
           },
         ),

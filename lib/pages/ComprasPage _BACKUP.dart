@@ -27,7 +27,7 @@ class _comprasPageState extends State<comprasPage> {
   @override
   void initState() {
     super.initState();
-    widget.provforaneo.ObtenerProducto('%%');
+    widget.provforaneo.obtenerProducto('%%');
   }
 
   @override
@@ -54,7 +54,7 @@ class _comprasPageState extends State<comprasPage> {
             padding: const EdgeInsets.only(right: 15),
             child: IconButton(
                 onPressed: () async {
-                  await prov.ObtenerProducto('%%');
+                  await prov.obtenerProducto('%%');
                   showDialog(
                       barrierDismissible: false,
                       context: context,
@@ -166,7 +166,7 @@ class _comprasPageState extends State<comprasPage> {
                                           log("total : $total");
 
                                           //CLEAR
-                                          prov.ObtenerProducto('%%');
+                                          prov.obtenerProducto('%%');
                                           Navigator.pop(context);
                                           iniciado = 1;
                                           total = 0.toDecimal();
@@ -375,21 +375,19 @@ class _comprasPageState extends State<comprasPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     textformfieldsintitle(
-                      clase: "productos",
-                      ancho: _ancho * .8,
-                      controllerfield: _controllercategoria,
-                      hinttext: 'B. producto por nombre',
-                      textinputype: TextInputType.text,
-                      habilitado: true,
-                      prov: prov
-                   
-                    ),
+                        clase: "productos",
+                        ancho: _ancho * .8,
+                        controllerfield: _controllercategoria,
+                        hinttext: 'B. producto por nombre',
+                        textinputype: TextInputType.text,
+                        habilitado: true,
+                        prov: prov),
                     SizedBox(
                       width: _ancho * .02,
                     ),
                     IconButton(
                         onPressed: () {
-                          prov.ObtenerProducto('%%');
+                          prov.obtenerProducto('%%');
                         },
                         icon: Icon(
                           Icons.all_inbox,

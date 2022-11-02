@@ -42,7 +42,7 @@ class _comprasPageState extends State<comprasPage> {
   @override
   void initState() {
     super.initState();
-    widget.provforaneo.ObtenerProducto('%%');
+    widget.provforaneo.obtenerProducto('%%');
     _valor = llenardropdownbutton();
   }
 
@@ -354,7 +354,7 @@ class _comprasPageState extends State<comprasPage> {
                                     padding: const EdgeInsets.only(left: 12),
                                     child: TextFormField(
                                       onFieldSubmitted: (value) {
-                                        prov.ObtenerProducto("%" +
+                                        prov.obtenerProducto("%" +
                                             _controllerbuscprod.text +
                                             "%");
 

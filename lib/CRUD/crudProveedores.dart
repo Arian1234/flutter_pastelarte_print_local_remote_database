@@ -5,22 +5,32 @@ class DbCrudProveedores {
   static final DbCrudProveedores dbp = DbCrudProveedores._();
   DbCrudProveedores._();
 
-  Future<int> NuevoProveedor(Proveedores provee) async {
+  Future<int> nuevoProveedor(Proveedores provee) async {
     final db = await DBProvider.db.getdatabase();
-    final res = await db.insert('PROVEEDORES', provee.toJson());
-    return res;
+    var res = 0;
+    try {
+      res = await db.insert('PROVEEDORES', provee.toJson());
+      return res;
+    } catch (e) {
+      return res;
+    }
   }
 
-  Future<int> ActualizarProveedor(
+  Future<int> actualizarProveedor(
       int cod, String nombre, String ruc, String dir, String cel) async {
     final db = await DBProvider.db.getdatabase();
-    final res = await db.rawUpdate(
-        '''UPDATE PROVEEDORES SET nombprovee=?,rucprovee=?,dirprovee=?,celprovee=? where idprovee=? ''',
-        [nombre, ruc, dir, cel, cod]);
-    return res;
+    var res = 0;
+    try {
+      res = await db.rawUpdate(
+          '''UPDATE PROVEEDORES SET nombprovee=?,rucprovee=?,dirprovee=?,celprovee=? where idprovee=? ''',
+          [nombre, ruc, dir, cel, cod]);
+      return res;
+    } catch (e) {
+      return res;
+    }
   }
 
-  Future<List<Proveedores>> GetProveedores(String busqueda) async {
+  Future<List<Proveedores>> getProveedores(String busqueda) async {
     final db = await DBProvider.db.getdatabase();
     final res = await db.query('PROVEEDORES',
         where: 'nombprovee like ?', whereArgs: [busqueda.toString()]);

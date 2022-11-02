@@ -36,7 +36,7 @@ class _ordenPageState extends State<ordenPage> {
   @override
   void initState() {
     super.initState();
-    widget.provforaneo.ObtenerProducto('%%');
+    widget.provforaneo.obtenerProducto('%%');
   }
 
   @override
@@ -68,7 +68,7 @@ class _ordenPageState extends State<ordenPage> {
             padding: const EdgeInsets.only(right: 15),
             child: IconButton(
                 onPressed: () async {
-                  await prov.ObtenerProducto('%%');
+                  await prov.obtenerProducto('%%');
                   showDialog(
                       barrierDismissible: false,
                       context: context,
@@ -497,21 +497,19 @@ class _ordenPageState extends State<ordenPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     textformfieldsintitle(
-                      clase: "productos",
-                      ancho: _ancho * .7,
-                      controllerfield: _controllercategoria,
-                      hinttext: 'B. producto por nombre',
-                      textinputype: TextInputType.text,
-                      habilitado: true,
-                      prov: prov
-                    
-                    ),
+                        clase: "productos",
+                        ancho: _ancho * .7,
+                        controllerfield: _controllercategoria,
+                        hinttext: 'B. producto por nombre',
+                        textinputype: TextInputType.text,
+                        habilitado: true,
+                        prov: prov),
                     SizedBox(
                       width: _ancho * .02,
                     ),
                     IconButton(
                         onPressed: () {
-                          prov.ObtenerProducto('%%');
+                          prov.obtenerProducto('%%');
                         },
                         icon: const Icon(
                           Icons.find_replace_outlined,
@@ -763,7 +761,7 @@ class _ordenPageState extends State<ordenPage> {
   }
 
   void nuevaorden(ProviderProductos prov) {
-    prov.ObtenerProducto('%%');
+    prov.obtenerProducto('%%');
     iniciado = 1;
     total = 0.toDecimal();
     pcosto = 0.toDecimal();

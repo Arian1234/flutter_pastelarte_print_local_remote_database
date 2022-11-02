@@ -201,7 +201,7 @@ class _textformfieldsintitleState extends State<textformfieldsintitle> {
                 onFieldSubmitted: (value) {
                   switch (widget._clase) {
                     case "productos":
-                      widget._prov.ObtenerProducto(
+                      widget._prov.obtenerProducto(
                           '%${widget._controllerfield.text.trim()}%');
 
                       break;
@@ -215,7 +215,7 @@ class _textformfieldsintitleState extends State<textformfieldsintitle> {
                           '%${widget._controllerfield.text.trim()}%');
                       break;
                     case "proveedores":
-                      widget._prov.ObtenerProveedores(
+                      widget._prov.obtenerProveedores(
                           '%${widget._controllerfield.text.trim()}%');
                       break;
 

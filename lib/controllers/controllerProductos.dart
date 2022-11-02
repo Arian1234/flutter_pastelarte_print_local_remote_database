@@ -6,7 +6,7 @@ import '../models/modelProductos.dart';
 class ProviderProductos extends ChangeNotifier {
   List<Productos> prod = [];
 
-  AgregarProducto(
+  Future<int> agregarProducto(
       String nomb,
       String desc,
       String categ,
@@ -28,14 +28,19 @@ class ProviderProductos extends ChangeNotifier {
         ventaprod: vent,
         despachorecep: desp,
         estadoprod: est);
-    final id = await DbCrudProductos.dbp.NuevoProducto(model);
-    model.idprod = id;
-    prod.add(model);
-    //  print("AQUI : " + prod[0].toString());
-    notifyListeners();
+
+    final id = await DbCrudProductos.dbp.nuevoProducto(model);
+    if (id != 0) {
+      model.idprod = id;
+      prod.add(model);
+      notifyListeners();
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
-  ActualizarProducto(
+  Future<int> actualizarProducto(
       int cod,
       String nombre,
       String descrip,
@@ -57,41 +62,24 @@ class ProviderProductos extends ChangeNotifier {
         precioprod: costo,
         ventaprod: venta,
         despachorecep: desrec);
-    await DbCrudProductos.dbp.ActualizarProductos(
+    final est = await DbCrudProductos.dbp.actualizarProductos(
         cod, nombre, descrip, categ, img, cant, min, costo, venta, desrec);
-
-    int index = prod.indexWhere((element) => element.idprod == cod);
-    log(index.toString());
-    prod.removeAt(index);
-    prod.insert(index, model);
-    notifyListeners();
-  }
-
-  ObtenerProducto(String busqueda) async {
-    log('buscando');
-    final model = await DbCrudProductos.dbp.GetProductos(busqueda.toString());
-    prod = [...model];
-    for (var i = 0; i < prod.length; i++) {
-      log(prod[i].nombprod.toString() +
-          prod[i].descripprod.toString() +
-          '-' +
-          prod[i].imgprod.toString() +
-          '-' +
-          prod[i].idprod.toString() +
-          '-' +
-          prod[i].cantprod.toString() +
-          '-' +
-          prod[i].precioprod.toString() +
-          '-' +
-          prod[i].ventaprod.toString() +
-          prod[i].estadoprod.toString());
+    if (est != 0) {
+      int index = prod.indexWhere((element) => element.idprod == cod);
+      log(index.toString());
+      prod.removeAt(index);
+      prod.insert(index, model);
+      notifyListeners();
+      return 1;
+    } else {
+      return 0;
     }
-    notifyListeners();
   }
 
-  // ObtenerProductosxBarra(String cod) async {
-  //   final model = await DbCrudCategorias.dbp.GetProductosxBarra(cod.toString());
-  //   prod = [...model];
-  //   notifyListeners();
-  // }
+  obtenerProducto(String busqueda) async {
+    log('buscando');
+    final model = await DbCrudProductos.dbp.getProductos(busqueda.toString());
+    prod = [...model];
+    notifyListeners();
+  }
 }
