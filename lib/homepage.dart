@@ -533,10 +533,12 @@ class seleccion extends StatelessWidget {
               if (ruta == "ordenes") {
                 final prov =
                     Provider.of<ProviderProductos>(context, listen: false);
+                prov.prod.clear();
+                prov.obtenerProducto('%%');
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ordenPage(provforaneo: prov),
+                      builder: (context) =>const ordenPage(),
                     ));
               }
             },
